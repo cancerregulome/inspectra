@@ -2,15 +2,16 @@
   "name": "inspectra",
   "version": "0.0.1",
   "dependencies": {
-    "requirejs": "~2.1.4",
-    "modernizr": "~2.6.2",
-    "jquery": "~2.0.3",
-    "jquery-ui": "~1.10.3",
-    "jquery-ui-bootstrap": "~0.2.5",
+    "requirejs": "latest",
+    "modernizr": "latest",
+    "jquery": "latest",
+    "jquery-ui": "latest",
+    "jquery-ui-bootstrap": "latest",
     "jBinary": "git://github.com/jDataView/jBinary.git",
     "jDataView": "git://github.com/jDataView/jDataView.git",
-    "underscore": "~1.5.1",
-    "sigma": "*"
+    "underscore": "latest",
+    "d3": "*",
+    "crossfilter": "~1.2.0"
   },
   "devDependencies": {}
 }

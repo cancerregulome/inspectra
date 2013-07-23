@@ -4,20 +4,28 @@ require.config({
         "jQuery-ui": "../bower_components/jquery-ui/ui/jquery-ui",
         bootstrap: 'vendor/bootstrap',
         underscore: '../bower_components/underscore/underscore',
-        vivagraph: '../bower_components/vivagraph/dist/vivagraph',
+        sigma: 'vendor/sigma',
         jDataView: '../bower_components/jDataView/src/jDataView',
-        jBinary : '../bower_components/jBinary/src/jBinary'
+        jBinary : '../bower_components/jBinary/src/jBinary',
+        d3 : '../bower_components/d3/d3',
+        crossfilter: '../bower_components/crossfilter/crossfilter'
     },
     shim: {
         underscore: {
             exports : '_'
         },
+        crossfilter: {
+            exports : 'crossfilter'
+        },
         "jQuery-ui": {
             deps: ["jquery"],
             exports: "$"
         },
-        vivagraph: {
-            exports: "Viva"
+        d3 : {
+            exports: "d3"
+        },
+        sigma: {
+            exports: "sigma"
         },
         bootstrap: {
             deps: ['jquery', 'jQuery-ui'],

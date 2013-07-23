@@ -1,29 +1,20 @@
 define([
 	'jquery'
-	, 'vivagraph'
-], function ($, Viva) {
+	, 'sigma'
+], function ($, sigma) {
 		'use strict';
 
 var inspectra = {
 	drawGraph : function(selector) {
-		var graph= Viva.Graph.graph();
-		graph.addLink(1,2);
-
-		var layout = Viva.Graph.Layout.forceDirected(graph, {
-           springLength : 30,
-           springCoeff : 0.0008,
-           dragCoeff : 0.02,
-           gravity : -1.2
-        });
-
-        var graphics = Viva.Graph.View.svgGraphics();
-
-		var renderer = Viva.Graph.View.renderer( graph, {
-		 	layout: layout,
-		 	graphics: graphics,
-		 	container: $(selector).get(0)
-		});
-        renderer.run();
+		var graph= sigma.init($(selector).get(0));
+		graph.addNode('1', {
+			label: '1',
+			color:'#ff0000'
+		}).addNode('2', {
+			label:'2',
+			color:'#00ff00'
+		}).addEdge('1 and 2', '1', '2')
+		.draw();
 	}
 
 		};
