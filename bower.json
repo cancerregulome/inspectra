@@ -4,7 +4,7 @@
   "dependencies": {
     "requirejs": "~2.1.4",
     "modernizr": "~2.6.2",
-    "jquery": "~1.9.1",
+    "jquery": "~2.0.3",
     "jquery-ui": "~1.10.3",
     "jquery-ui-bootstrap": "~0.2.5",
     "vivagraph": "latest",

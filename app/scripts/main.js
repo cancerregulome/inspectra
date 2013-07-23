@@ -4,19 +4,20 @@ require.config({
         "jQuery-ui": "../bower_components/jquery-ui/ui/jquery-ui",
         bootstrap: 'vendor/bootstrap',
         underscore: '../bower_components/underscore/underscore',
+        vivagraph: '../bower_components/vivagraph/dist/vivagraph',
         jDataView: '../bower_components/jDataView/src/jDataView',
         jBinary : '../bower_components/jBinary/src/jBinary'
     },
     shim: {
         underscore: {
-            'exports' : '_'
+            exports : '_'
         },
         "jQuery-ui": {
-            "deps": ["jquery"],
-            "exports": "$"
+            deps: ["jquery"],
+            exports: "$"
         },
-        queue: {
-            'exports': 'queue'
+        vivagraph: {
+            exports: "Viva"
         },
         bootstrap: {
             deps: ['jquery', 'jQuery-ui'],
@@ -25,7 +26,7 @@ require.config({
     }
 });
 
-require(['app', 'underscore', 'jquery', 'bootstrap'], function (app, _, $) {
+require(['app', 'underscore', 'jquery', 'bootstrap', 'vivagraph'], function (app, _, $) {
     'use strict';
     app.initialize();
     app.start();
