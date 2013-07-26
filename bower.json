@@ -11,7 +11,8 @@
     "jDataView": "git://github.com/jDataView/jDataView.git",
     "underscore": "latest",
     "d3": "*",
-    "crossfilter": "~1.2.0"
+    "crossfilter": "~1.2.0",
+    "rbush": "git@github.com:mourner/rbush.git#~1.2.1"
   },
   "devDependencies": {}
 }
