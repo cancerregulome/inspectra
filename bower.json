@@ -9,7 +9,8 @@
     "jquery-ui-bootstrap": "latest",
     "jBinary": "git://github.com/jDataView/jBinary.git",
     "jDataView": "git://github.com/jDataView/jDataView.git",
-    "underscore": "latest",
+    "sigma": "git://github.com/rbkreisberg/sigma.js.git",
+    "underscore": "latest",	
     "d3": "*",
     "crossfilter": "~1.2.0",
     "rbush": "git@github.com:mourner/rbush.git#~1.2.1"
