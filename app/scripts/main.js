@@ -4,7 +4,8 @@ require.config({
         "jQuery-ui": "../bower_components/jquery-ui/ui/jquery-ui",
         bootstrap: 'vendor/bootstrap',
         underscore: '../bower_components/underscore/underscore',
-        sigma: 'vendor/sigma',
+        d3: '../bower_components/d3/d3',
+        sigma: '../bower_components/sigma.js/build/sigma.full',
         rbush: '../bower_components/rbush/rbush',
         jDataView: '../bower_components/jDataView/src/jDataView',
         jBinary : '../bower_components/jBinary/src/jBinary',
@@ -21,10 +22,13 @@ require.config({
             deps: ["jquery"],
             exports: "$"
         },
+        d3: {
+            exports: "d3"
+        },
         sigma: {
             exports: "sigma"
         },
-        shim : {
+        rbush : {
             exports: "rbush"
         },
         bootstrap: {
@@ -34,7 +38,7 @@ require.config({
     }
 });
 
-require(['app', 'underscore', 'jquery', 'bootstrap', 'rbush'], function (app, _, $) {
+require(['app', 'underscore', 'jquery', 'bootstrap', 'd3', 'rbush', 'sigma'], function (app, _, $) {
     'use strict';
     app.initialize();
     app.start();

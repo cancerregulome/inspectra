@@ -7,9 +7,11 @@ define([
 ], function ($, _, graphModel, inspectra) {
     'use strict';
 
+	var vis;
+
 	var Application = {
 		initialize : function() {
-			var graph = {
+			var graphInput = {
 						nodes: [ 
 						{ id:'0', x: 10, y:10},
 						{ id:'1', x: 20, y:20},
@@ -18,18 +20,19 @@ define([
 						{ id:'4', x: 50, y:50}
 						],
 						edges: [
-						{ id: '0-1', n1: '0',n2 : '1'},
-						{ id: '2-1', n1: '2',n2 : '1'},
-						{ id: '3-4', n1: '3',n2 : '4'},
-						{ id: '1-4', n1: '1',n2 : '4'},
-						{ id: '0-3', n1: '0',n2 : '3'}
+						{ id: '0-1', source: '0', target : '1'},
+						{ id: '2-1', source: '2', target : '1'},
+						{ id: '3-4', source: '3', target : '4'},
+						{ id: '1-4', source: '1', target : '4'},
+						{ id: '0-3', source: '0', target : '3'}
 						]
 			};
-			graphModel.buildGraph(graph);
+			var graph = graphModel(graphInput);
 
-			// inspectra.drawGraph('#main_graph');
+			vis = inspectra.build('#main_graph').populate(graph);
 		},
 		start : function() {
+			vis.draw();
 		}
 	};
 	return Application;
