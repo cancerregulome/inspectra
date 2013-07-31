@@ -52,7 +52,7 @@ return function(graph) {
 	});
 
 	var nodePositions = __.nodes.map(function(node) {		
-		return { id : node.id, x0: node.x, y0: node.y, x1: node.x+1, y1: node.y+1 };
+		return { id : node.id, x0: node.x, y0: node.y, x1: node.x+.1, y1: node.y+.1 };
 	});
 
 	__.nodeTree = rbush(nodePositions.length, ['.x0','.y0','.x1','.y1']);
