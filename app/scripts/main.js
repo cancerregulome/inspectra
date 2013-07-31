@@ -1,7 +1,7 @@
 require.config({
     paths: {
         jquery: '../bower_components/jquery/jquery',
-        "jQuery-ui": "../bower_components/jquery-ui/ui/jquery-ui",
+        jqueryui: "../bower_components/jqueryuibootstrap/js/jquery-ui-1.9.2.custom.min",
         bootstrap: 'vendor/bootstrap',
         underscore: '../bower_components/underscore/underscore',
         d3: '../bower_components/d3/d3',
@@ -18,7 +18,7 @@ require.config({
         crossfilter: {
             exports : 'crossfilter'
         },
-        "jQuery-ui": {
+        jqueryui: {
             deps: ["jquery"],
             exports: "$"
         },
@@ -32,14 +32,16 @@ require.config({
             exports: "rbush"
         },
         bootstrap: {
-            deps: ['jquery', 'jQuery-ui'],
+            deps: ['jquery', 'jqueryui'],
             exports: 'bootstrap'
         }
     }
 });
 
-require(['app', 'underscore', 'jquery', 'bootstrap', 'd3', 'rbush', 'sigma'], function (app, _, $) {
+require(['app', 'underscore', 'jquery', 'jqueryui', 'bootstrap', 'd3', 'rbush', 'sigma'], function (app, _, $) {
     'use strict';
-    app.initialize();
-    app.start();
+    app.initialize(function(){
+        app.start();
+    });
+    
 });

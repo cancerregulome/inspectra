@@ -11,8 +11,8 @@
     <meta name="viewport" content="width=device-width">
 
     <!-- build:css css/vendor.css -->
-    <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery.ui.theme.css">
     <link rel="stylesheet" href="styles/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/jqueryuibootstrap/css/custom-theme/jquery-ui-1.10.0.custom.css">
     <!-- endbuild -->
     <!-- build:css css/main.css -->
     <link rel="stylesheet" href="styles/inspectra.css">
@@ -53,11 +53,12 @@
         </div>
         <div id="main_container" class="container">
             <div class="row">
-                <div class="span8">
-                    <div id="main_graph" class="inspectra"></div>
+                <div class="span12">
+                    <div id="main_graph" class="inspectra" style="height:800px"></div>
                     <div class="well graph_controls">
                         <div style="display:inline-block; height:60px">
-                            <div id="color_legend" style="display:inline-block; width:250px; height:20px; margin-left:40px;"></div>
+                            <label for="opacity">Opacity:</label><input type="text" class="input-mini" id="opacity" style="border: 0; color: #f6931f; font-weight: bold;" />
+                            <div id="opacity-slider" style="width:180px; display:inline-block;"></div>
                         </div>
                     </div>               
                 </div>
