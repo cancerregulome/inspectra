@@ -5,15 +5,15 @@
     "requirejs": "latest",
     "modernizr": "latest",
     "jquery": "latest",
-    "jquery-ui": "latest",
-    "jquery-ui-bootstrap": "latest",
+    "jquery-ui": "*",
     "jBinary": "git://github.com/jDataView/jBinary.git",
     "jDataView": "git://github.com/jDataView/jDataView.git",
     "sigma": "git://github.com/rbkreisberg/sigma.js.git",
-    "underscore": "latest",	
+    "underscore": "latest",
     "d3": "*",
     "crossfilter": "~1.2.0",
-    "rbush": "git@github.com:mourner/rbush.git#~1.2.1"
+    "rbush": "git@github.com:mourner/rbush.git#~1.2.1",
+    "jqueryuibootstrap": "*"
   },
   "devDependencies": {}
 }
