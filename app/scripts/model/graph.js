@@ -2,9 +2,14 @@ define([
 	  'underscore'
 	, 'rbush'  //rbush installs itself on the global object
 ], function (_) {
+'use strict'
 
-var n1 = 'source',
-	n2 = 'target';
+var n1 = 0,
+	n2 = 1,
+	weight = 2,
+	id = 'id',
+	source = 'source',
+	target = 'target';
 
 return function(graph) {
 
@@ -40,16 +45,23 @@ return function(graph) {
 	__.nodes.forEach(function(val, index){
 		__.nodeMap[val.id] = index;
 	});
-	__.edgeMap = {};
-
-
-	__.nodeToEdgesMap = _.object(_.pluck(__.nodes,'id'), _.times(__.nodes.length,makeArray));
-
-	__.edges.forEach(function(val, index){
-		__.edgeMap[val.id] = index;
-		__.nodeToEdgesMap[val[n1]].push(val.id);
-		__.nodeToEdgesMap[val[n2]].push(val.id);
+	
+	__.nodeToEdgesMap = _.object(_.pluck(__.nodes,id), _.times(__.nodes.length,makeArray));
+	var id1, id2, edge_id;
+	var edges = __.edges.map(function(edge) {
+		id1 = __.nodes[edge[0]][id];
+		id2 = __.nodes[edge[1]][id];
+		edge_id = '' + id1 + '-' + id2;
+		if (_.contains(__.nodeToEdgesMap[id1], edge_id) || _.contains(__.nodeToEdgesMap[id2], edge_id)) {
+			edge_id = edge_id + ' ' + Math.random();
+		}
+		__.nodeToEdgesMap[id1].push(edge_id);
+		__.nodeToEdgesMap[id2].push(edge_id);
+		return { id: edge_id, source: id1, target: id2, weight: edge[2], 
+			color: (edge[3] === 1 ? 'rgb(0,255,0)' : 'rgb(255,0,0)') };
 	});
+
+	edges = _.compact(edges);
 
 	var nodePositions = __.nodes.map(function(node) {		
 		return { id : node.id, x0: node.x, y0: node.y, x1: node.x+.1, y1: node.y+.1 };
@@ -57,7 +69,7 @@ return function(graph) {
 
 	__.nodeTree = rbush(nodePositions.length, ['.x0','.y0','.x1','.y1']);
 	__.nodeTree.load(nodePositions);
-	_.extend(graphModel, {nodes: __.nodes, edges: __.edges});
+	_.extend(graphModel, {nodes: __.nodes, edges: edges});
 
 	return graphModel;
 		

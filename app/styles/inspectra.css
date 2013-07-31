@@ -10,6 +10,7 @@ body {
 #main_graph {
     min-height: 500px;
     border : 1px solid black;
+    background-color: #000;
 }
 
 .graph_controls {

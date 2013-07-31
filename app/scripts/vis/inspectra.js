@@ -4,16 +4,15 @@ define([
 ], function ($, sigma) {
 		'use strict';
 
-var sigma_obj, el;
-var inspectra = {
-	build : function(selector) {
+return function build(selector) {
+	var inspectra = { version: '0.0.1' };
 			$(selector).css({
 				position: 'relative',
 				"border-radius": '4px',
-				background: '#222'			
+				background: '#000'			
 			}).append($('<div>'));
 				
-			el = $(selector +' div').css({
+			var el = $(selector +' div').css({
 				position: 'absolute',
 				width:'100%',
 				height: '100%',
@@ -21,13 +20,15 @@ var inspectra = {
 				left: '0'
 			});
 
-			sigma_obj = sigma.init(el.get(0)).drawingProperties({
+			var sigma_obj = sigma.init(el.get(0)).drawingProperties({
 				defaultLabelColor: '#fff',
 				defaultLabelSize: 14,
 				defaultLabelBGColor: '#fff',
 				defaultLabelHoverColor: '#000',
 				labelThreshold: 6,
-				defaultEdgeType: 'line'
+				defaultEdgeType: 'line',
+				edgeCompositeOperation: 'lighter',
+				edgeAlpha: 1.0
 			}).graphProperties({
 				minedgesize: 0,
 				maxNodeSize: 1,
@@ -37,27 +38,30 @@ var inspectra = {
 				maxRatio: 4
 			});
 
-			sigma_obj.bind('stopdrag', function(e) {
-				var rectangle  = e.content;
-				var boundaries = [Math.min(rectangle[0],rectangle[2]), Math.min(rectangle[1],rectangle[3]),Math.max(rectangle[0],rectangle[2]), Math.max(rectangle[1],rectangle[3])];
-				console.log(rectangle);
-				console.log(graph.getNodesInBox(boundaries));
-			});
-			return this;
-	},
+			sigma_obj
+			inspectra.vis = sigma_obj;
+			inspectra.el = el;
 
-	populate : function(graph) {
+	inspectra.populate = function(graph) {
+		var self = this;
 		self.graph = graph;
-		sigma_obj.pushGraph(graph);
-		return this;
-	},
+		self.vis.pushGraph(graph)
+		.bind('stopdrag', function(e) {
+			var rectangle  = e.content;
+			var boundaries = [Math.min(rectangle[0],rectangle[2]), Math.min(rectangle[1],rectangle[3]),Math.max(rectangle[0],rectangle[2]), Math.max(rectangle[1],rectangle[3])];
+			console.log(rectangle);
+			console.log(self.graph.getNodesInBox(boundaries));
+		});
 
-	draw : function() {
-			sigma_obj.draw();
+		return self;
+	};
+
+	inspectra.draw = function() {
+			this.vis.draw();
 			return this;
-	}
-
-};
+	};
 
 	return inspectra;
+};
+
 });
