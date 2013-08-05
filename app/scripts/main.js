@@ -5,7 +5,7 @@ require.config({
         bootstrap: 'vendor/bootstrap',
         underscore: '../bower_components/underscore/underscore',
         d3: '../bower_components/d3/d3',
-        sigma: '../bower_components/sigma.js/build/sigma.full',
+        sigma: '../bower_components/sigma/build/sigma.full',
         rbush: '../bower_components/rbush/rbush',
         jDataView: '../bower_components/jDataView/src/jDataView',
         jBinary : '../bower_components/jBinary/src/jBinary',
