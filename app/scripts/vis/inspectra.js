@@ -30,10 +30,9 @@ return function build(selector) {
 				edgeCompositeOperation: 'lighter',
 				edgeAlpha: 1.0
 			}).graphProperties({
-				minedgesize: 0,
 				maxNodeSize: 1,
-				maxEdgeSize: 3,
-				minEdgeSize: 2
+				maxEdgeSize: 1.5,
+				minEdgeSize: 3.0
 			}).mouseProperties({
 				maxRatio: 4
 			});
