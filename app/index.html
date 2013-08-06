@@ -12,7 +12,7 @@
 
     <!-- build:css css/vendor.css -->
     <link rel="stylesheet" href="styles/bootstrap.css">
-    <link rel="stylesheet" href="bower_components/jqueryuibootstrap/css/custom-theme/jquery-ui-1.10.0.custom.css">
+    <link rel="stylesheet" href="styles/jquery-ui-1.10.0.custom.css">
     <!-- endbuild -->
     <!-- build:css css/main.css -->
     <link rel="stylesheet" href="styles/inspectra.css">
@@ -20,6 +20,7 @@
 
     <!-- build:js scripts/vendor.js -->
     <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/sigma/build/sigma.full.js"></script>
     <script src="bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
 </head>
@@ -58,7 +59,28 @@
                     <div class="well graph_controls">
                         <div style="display:inline-block; height:60px">
                             <label for="opacity">Opacity:</label><input type="text" class="input-mini" id="opacity" style="border: 0; color: #f6931f; font-weight: bold;" />
-                            <div id="opacity-slider" style="width:180px; display:inline-block;"></div>
+                            <div id="opacity-slider" style="width:180px; display:inline-block; margin-right:10px;"></div>
+                            <select id="compositing" class="input-small">
+                                <option>lighter</option>
+                                <option>darker</option>
+                                <option value="source-over">graph 1</option>
+                                <option value="destination-over">graph 2</option>
+                                <option>xor</option>
+                            </select>
+                            <select id="graph_1_color" class="input-small">
+                                <option value="rgb(255,0,0)">red</option>
+                                <option value="rgb(0,255,0)" selected>green</option>
+                                <option value="rgb(0,0,255)">blue</option>
+                                <option value="rgb(255,255,0)">yellow</option>
+                                <option value="rgb(255,0,255)">purple</option>
+                            </select>
+                            <select id="graph_2_color" class="input-small">
+                                <option value="rgb(255,0,0)" selected>red</option>
+                                <option value="rgb(0,255,0)">green</option>
+                                <option value="rgb(0,0,255)">blue</option>
+                                <option value="rgb(255,255,0)">yellow</option>
+                                <option value="rgb(255,0,255)">purple</option>
+                            </select>
                         </div>
                         <div style="display:inline-block; height:60px">
                         </div>
