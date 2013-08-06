@@ -1,7 +1,6 @@
 define([
 	'jquery'
-	, 'sigma'
-], function ($, sigma) {
+], function ( $ ) {
 		'use strict';
 
 return function build(selector) {
@@ -11,6 +10,11 @@ return function build(selector) {
 				"border-radius": '4px',
 				background: '#000'			
 			}).append($('<div>'));
+
+			var edgeColors = {
+				'1' : 'rgb(0,255,0)',
+				'2' : 'rgb(255,0,0)'
+			}
 				
 			var el = $(selector +' div').css({
 				position: 'absolute',
@@ -28,7 +32,10 @@ return function build(selector) {
 				labelThreshold: 6,
 				defaultEdgeType: 'line',
 				edgeCompositeOperation: 'lighter',
-				edgeAlpha: 1.0
+				edgeAlpha: 1.0,
+				edgeColor: function(edge) { return  edge['attr']['graph_id'] && edgeColors[edge['attr']['graph_id']] ? 
+							edgeColors[edge['attr']['graph_id']] : edgeColors['1']; 
+				}
 			}).graphProperties({
 				maxNodeSize: 1,
 				maxEdgeSize: 1.5,
@@ -58,6 +65,11 @@ return function build(selector) {
 	inspectra.draw = function() {
 			this.vis.draw();
 			return this;
+	};
+
+	inspectra.edgeColor = function(graph_id, color) {
+		edgeColors[graph_id] = color;
+		return this;
 	};
 
 	return inspectra;

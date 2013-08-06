@@ -46,6 +46,15 @@ define([
 				}
 			});
 			$( "#opacity" ).val( $( "#opacity-slider" ).slider( "value" ) );
+			$('#compositing').on('change', function(evt, ui) {
+				insp.vis.drawingProperties({edgeCompositeOperation : $(this).val()}).draw();
+			});
+			$('#graph_1_color').on('change', function(evt, ui) {
+				insp.edgeColor('1', $(this).val()).draw();
+			});
+			$('#graph_2_color').on('change', function(evt, ui) {
+				insp.edgeColor('2', $(this).val()).draw();
+			});
 		},
 		start : function() {
 			if (!loadSuccess) { return; }

@@ -57,8 +57,7 @@ return function(graph) {
 		}
 		__.nodeToEdgesMap[id1].push(edge_id);
 		__.nodeToEdgesMap[id2].push(edge_id);
-		return { id: edge_id, source: id1, target: id2, weight: edge[2], 
-			color: (edge[3] === 1 ? 'rgb(0,255,0)' : 'rgb(255,0,0)') };
+		return { id: edge_id, source: id1, target: id2, weight: edge[2], graph_id: ''+edge[3] };
 	});
 
 	edges = _.compact(edges);
