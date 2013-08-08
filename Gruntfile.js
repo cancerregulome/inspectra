@@ -240,8 +240,8 @@ module.exports = function (grunt) {
                         '.htaccess',
                         'images/{,*/}*.{webp,gif,png,jpg}',
                         'styles/fonts/*',
-			'styles/images/{,*/}*.{webp,gif,png,jpg}',
-			'data/{,*/}*.json'
+            			'styles/images/{,*/}*.{webp,gif,png,jpg}',
+            			'data/{,*/}*.json'
                     ]
                 }, {
                     expand: true,
