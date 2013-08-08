@@ -30,6 +30,49 @@ return function(graph) {
 		},
 		getEdgesInBox: function(left, bottom, right, top) {
 			return __.edgeTree.search(left, bottom, right, top);
+		},
+		assignClustersAtCutoff: function(fn, cutoff, min_size) {
+
+			var j = 0;
+			var total = __.nodes.length -1;
+			var delta;
+			var cluster = [];
+			cluster[0] = [];
+
+			cutoff = cutoff || 0.00001;
+
+			var node1, 
+				node2 = __.nodes[0];
+
+			for (var i = 1; i < total; i++) {
+				node1 = node2;
+				node2 = __.nodes[i];
+				delta = fn(node2) - fn(node1);
+				if ((delta >= 0 && delta > cutoff) || (delta < 0 && delta < cutoff * -1)) {
+					j++;	//make a new cluster if the change is greater than cutoff.
+					cluster[j] = [];
+				}
+				cluster[j].push(node2);
+			}
+
+			min_size = min_size || 1;
+			var large_clusters = cluster.filter(function(c) {
+				return c.length >= min_size;
+			});
+			_.each(large_clusters, function(c, index) {
+				_.each(c, function(n) { n.cluster = index; });
+			});
+			var filteredNodes = _.flatten(large_clusters);
+			var nodeIds = _.pluck(filteredNodes, 'id');
+			graphModel.nodes = (filteredNodes === undefined ?  __.nodes : filteredNodes );
+
+			var filteredEdges = __.edges.filter(function(edge) {
+				return nodeIds.indexOf(edge.source) >= 0 && nodeIds.indexOf(edge.target) >= 0;
+			});
+
+			graphModel.edges = (filteredEdges === undefined  ? __.edges : filteredEdges );
+
+			return graphModel;
 		}
 
 	};
@@ -42,6 +85,8 @@ return function(graph) {
 	}
 	_.extend(__, graph);
 	__.nodeMap = {};
+
+	__.nodes = _.sortBy(__.nodes, 'x');
 	__.nodes.forEach(function(val, index){
 		__.nodeMap[val.id] = index;
 	});
@@ -60,7 +105,7 @@ return function(graph) {
 		return { id: edge_id, source: id1, target: id2, weight: edge[2], graph_id: ''+edge[3] };
 	});
 
-	edges = _.compact(edges);
+	__.edges = _.compact(edges);
 
 	var nodePositions = __.nodes.map(function(node) {		
 		return { id : node.id, x0: node.x, y0: node.y, x1: node.x+.1, y1: node.y+.1 };
@@ -68,7 +113,7 @@ return function(graph) {
 
 	__.nodeTree = rbush(nodePositions.length, ['.x0','.y0','.x1','.y1']);
 	__.nodeTree.load(nodePositions);
-	_.extend(graphModel, {nodes: __.nodes, edges: edges});
+	_.extend(graphModel, {nodes: __.nodes, edges: __.edges});
 
 	return graphModel;
 		

@@ -42,7 +42,17 @@ return function build(selector) {
 				minEdgeSize: 3.0
 			}).mouseProperties({
 				maxRatio: 4
-			});
+			}).bind('stopbrush', function(e) {
+			var rectangle  = e.content;
+			var boundaries = [
+			Math.min(rectangle[0],rectangle[2]), 
+			Math.min(rectangle[1],rectangle[3]),
+			Math.max(rectangle[0],rectangle[2]), 
+			Math.max(rectangle[1],rectangle[3])
+			];
+
+			console.log(self.graph.getNodesInBox(boundaries));
+		});
 
 			sigma_obj
 			inspectra.vis = sigma_obj;
@@ -51,14 +61,8 @@ return function build(selector) {
 	inspectra.populate = function(graph) {
 		var self = this;
 		self.graph = graph;
+		self.vis.emptyGraph();
 		self.vis.pushGraph(graph)
-		.bind('stopbrush', function(e) {
-			var rectangle  = e.content;
-			var boundaries = [Math.min(rectangle[0],rectangle[2]), Math.min(rectangle[1],rectangle[3]),Math.max(rectangle[0],rectangle[2]), Math.max(rectangle[1],rectangle[3])];
-			console.log(rectangle);
-			console.log(self.graph.getNodesInBox(boundaries));
-		});
-
 		return self;
 	};
 
