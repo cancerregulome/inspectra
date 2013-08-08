@@ -21,6 +21,14 @@ return function(graph) {
 		edgeTree: null
 	};
 
+	var clusterColors = ["#C242A7",
+			"#63DA33",
+			"#C63B34",
+			"#7164C4",
+			"#378B1C"
+	],
+	numColors = clusterColors.length;
+
 	var graphModel = {
 		getNodesInBox: function(left, bottom, right, top) {
 			if (arguments.length === 1 ) {
@@ -60,7 +68,7 @@ return function(graph) {
 				return c.length >= min_size;
 			});
 			_.each(large_clusters, function(c, index) {
-				_.each(c, function(n) { n.cluster = index; });
+				_.each(c, function(n) { n.cluster = index; n.color = clusterColors[index%numColors]; });
 			});
 			var filteredNodes = _.flatten(large_clusters);
 			var nodeIds = _.pluck(filteredNodes, 'id');
@@ -77,6 +85,17 @@ return function(graph) {
 
 	};
 
+	function loadNodes(nodes) {
+		__.nodeTree.clear();
+		var nodePositions = nodes.map(function(node) {		
+			return { id : node.id, x0: node.x, y0: node.y, x1: node.x+.1, y1: node.y+.1 };
+		});
+		
+		__.nodeTree.load(nodePositions);
+	
+
+	}
+
 	var makeArray = function() { return []; };
 
 	if (!(graph.nodes && graph.edges)) {
@@ -85,6 +104,8 @@ return function(graph) {
 	}
 	_.extend(__, graph);
 	__.nodeMap = {};
+
+	__.nodeTree = rbush(graph.nodes.length, ['.x0','.y0','.x1','.y1']);
 
 	__.nodes = _.sortBy(__.nodes, 'x');
 	__.nodes.forEach(function(val, index){
@@ -107,12 +128,7 @@ return function(graph) {
 
 	__.edges = _.compact(edges);
 
-	var nodePositions = __.nodes.map(function(node) {		
-		return { id : node.id, x0: node.x, y0: node.y, x1: node.x+.1, y1: node.y+.1 };
-	});
-
-	__.nodeTree = rbush(nodePositions.length, ['.x0','.y0','.x1','.y1']);
-	__.nodeTree.load(nodePositions);
+	loadNodes(__.nodes);
 	_.extend(graphModel, {nodes: __.nodes, edges: __.edges});
 
 	return graphModel;

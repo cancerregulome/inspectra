@@ -37,11 +37,12 @@ return function build(selector) {
 							edgeColors[edge['attr']['graph_id']] : edgeColors['1']; 
 				}
 			}).graphProperties({
+				minNnodeSize: 1,
 				maxNodeSize: 1,
-				maxEdgeSize: 1.5,
-				minEdgeSize: 3.0
+				minEdgeSize: 0.5,
+				maxEdgeSize: 4,
 			}).mouseProperties({
-				maxRatio: 4
+				maxRatio: 16
 			}).bind('stopbrush', function(e) {
 			var rectangle  = e.content;
 			var boundaries = [
