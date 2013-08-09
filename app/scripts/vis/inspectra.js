@@ -5,7 +5,7 @@ define([
 
 return function build(selector) {
 	var inspectra = { version: '0.0.1' };
-			$(selector).css({
+			$(selector).empty().css({
 				position: 'relative',
 				"border-radius": '4px',
 				background: '#000'			

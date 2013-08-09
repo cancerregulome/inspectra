@@ -39,8 +39,15 @@
                         <div class="navbar-inner">
                             <div class="container">
                                 <a class="brand">Inspectra</a>
-                                <form class="navbar-form pull-left">
+                                <form class="navbar-form pull-left form-inline">
                                     <input type="text" placeholder="Label" class="search-label" id="highlight" />
+                                    <span class="navbar-text" for="dataset">Dataset:</span>
+                                    <select id="dataset" class="input-mini">
+                                        <option value="test" selected>1</option>
+                                        <option value="test2">2</option>
+                                        <option value="test3">3</option>
+                                        <option value="test4">4</option>
+                                    </select>
                                 </form>
                                 <a id="helpButton" class="btn btn-small btn-info pull-right" data-toggle="modal" data-target="#helpPanel" href="#"> <i class="icon-question-sign icon-white"></i>
                                 </a>

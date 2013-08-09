@@ -9,6 +9,7 @@ define([
 
 	var insp;
 	var loadSuccess = false;
+	var graph;
 
 	function filterClusters() {
 		var cutoff = $('#delta-f1-cutoff-slider').slider("value");
@@ -27,11 +28,8 @@ define([
 		insp.vis.drawingProperties({edgeAlpha: val})
 	}
 
-	var Application = {
-		initialize : function(callback) {
-			var graph;
-
-			$.getJSON('data/test4.json', {
+	function loadJson(file, callback) {
+		$.getJSON('data/'+file+'.json', {
 				format: "json"
 			})
 			.done(function(data){
@@ -45,6 +43,13 @@ define([
 			.always(function() {
 				callback();
 			})
+	}
+
+	var Application = {
+		initialize : function(callback) {
+			
+			loadJson( $('#dataset').val(), callback);
+			
 			$('#opacity-slider').empty().slider({
 				min: 0,
 				max: 1,
@@ -63,6 +68,10 @@ define([
 					insp.draw();
 				}
 			});
+			$('#dataset').on('change', function(evt, ui) {
+				loadJson($(this).val(), function() { insp.draw()} );
+			});
+
 			$( "#opacity" ).val( $( "#opacity-slider" ).slider( "value" ) );
 			$('#compositing').on('change', function(evt, ui) {
 				insp.vis.drawingProperties({edgeCompositeOperation : $(this).val()}).draw();
