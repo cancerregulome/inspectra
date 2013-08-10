@@ -14,7 +14,7 @@ return function build(selector) {
 			var edgeColors = {
 				'1' : 'rgb(0,255,0)',
 				'2' : 'rgb(255,0,0)'
-			}
+			};
 				
 			var el = $(selector +' div').css({
 				position: 'absolute',
@@ -29,7 +29,7 @@ return function build(selector) {
 				defaultLabelSize: 14,
 				defaultLabelBGColor: '#fff',
 				defaultLabelHoverColor: '#000',
-				labelThreshold: 6,
+				labelThreshold: 4,
 				defaultEdgeType: 'line',
 				edgeCompositeOperation: 'lighter',
 				edgeAlpha: 1.0,

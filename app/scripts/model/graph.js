@@ -72,15 +72,15 @@ return function(graph) {
 			});
 			var filteredNodes = _.flatten(large_clusters);
 			var nodeIds = _.pluck(filteredNodes, 'id');
-			graphModel.nodes = (filteredNodes === undefined ?  __.nodes : filteredNodes );
+			self.nodes = (filteredNodes === undefined ?  __.nodes : filteredNodes );
 
 			var filteredEdges = __.edges.filter(function(edge) {
 				return nodeIds.indexOf(edge.source) >= 0 && nodeIds.indexOf(edge.target) >= 0;
 			});
 
-			graphModel.edges = (filteredEdges === undefined  ? __.edges : filteredEdges );
+			self.edges = (filteredEdges === undefined  ? __.edges : filteredEdges );
 
-			return graphModel;
+			return self;
 		}
 
 	};

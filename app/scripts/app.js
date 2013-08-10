@@ -69,7 +69,7 @@ define([
 				}
 			});
 			$('#dataset').on('change', function(evt, ui) {
-				loadJson($(this).val(), function() { insp.draw()} );
+				loadJson($(this).val(), function() { insp.draw() } );
 			});
 
 			$( "#opacity" ).val( $( "#opacity-slider" ).slider( "value" ) );
@@ -83,7 +83,7 @@ define([
 				insp.edgeColor('2', $(this).val()).draw();
 			});
 			$('#edge-checkbox').on('change', function(evt)  {
-				insp.vis.configProperties({drawEdges: $(this).is(':checked')});
+				insp.vis.configProperties({auto: false, drawNodes: 2, drawEdges: $(this).is(':checked') ? 2 : 0, drawLabels: 2 });
 				insp.draw();
 			});
 			
@@ -150,7 +150,7 @@ define([
 		},
 		start : function() {
 			if (!loadSuccess) { return; }
-			filterClusters();
+			// filterClusters();
 			resizeNodes();
 			changeAlpha();
 			insp.draw();
