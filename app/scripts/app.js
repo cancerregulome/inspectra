@@ -8,7 +8,6 @@ define([
     'use strict';
 
 	var insp;
-	var loadSuccess = false;
 	var graph;
 	var lastFilterAttr = 'x';
 	var debounceInterval = 500;
@@ -36,7 +35,7 @@ define([
 		insp.vis.drawingProperties({edgeAlpha: val})
 	}
 
-	function loadJson(file, callback) {
+	function loadJson(file, successCallback, failCallback, alwaysCallback) {
 		$.getJSON('data/'+file+'.json', {
 				format: "json"
 			})
@@ -44,20 +43,26 @@ define([
 				graph = graphModel(data);
 				if (insp === undefined) insp = inspectra('#main_graph');
 				insp.populate(graph);
-				loadSuccess = true;
+				if ( typeof successCallback  === 'function' ) {
+					successCallback();
+				}
 			})
 			.fail(function() {
-				loadSuccess = false;
+				if ( typeof failCallback  === 'function' ) {
+					failCallback();
+				}
 			})
 			.always(function() {
-				callback();
-			})
+				if ( typeof alwaysCallback  === 'function' ) {
+					alwaysCallback();
+				}
+			});
 	}
 
 	var Application = {
-		initialize : function(callback) {
+		initialize : function(successCallback) {
 			
-			loadJson( $('#dataset').val(), callback);
+			loadJson( $('#dataset').val(), successCallback);
 		
 			$('#opacity-slider').empty().slider({
 				min: 0,
@@ -163,8 +168,6 @@ define([
 		
 		},
 		start : function() {
-			if (!loadSuccess) { return; }
-			// filterClusters();
 			resizeNodes();
 			changeAlpha();
 			insp.draw();
