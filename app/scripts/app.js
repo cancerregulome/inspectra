@@ -10,11 +10,18 @@ define([
 	var insp;
 	var loadSuccess = false;
 	var graph;
+	var lastFilterAttr = 'x';
 
-	function filterClusters() {
-		var cutoff = $('#delta-f1-cutoff-slider').slider("value");
-		var minSize = $('#min-cluster-size-slider').slider("value");
-		insp.graph.assignClustersAtCutoff(function(node) { return node.graph1.f1;}, cutoff, minSize);
+	function filterClusters(attr) {
+		attr = attr || lastFilterAttr;
+		lastFilterAttr = attr;
+		var cutoff = $('#' + attr + '-delta-f1-cutoff-slider').slider("value"),
+			graph = attr === 'x' ? 'graph1' : 'graph2',
+		 	minSize = $('#' + attr + '-min-cluster-size-slider').slider("value");
+		insp.graph.assignClustersAtCutoff( function(node1, node2) { 
+			var delta = Math.abs(node2[graph].f1 - node1[graph].f1);
+			return (delta <= cutoff); } 
+			, minSize, attr);
 		insp.populate(insp.graph);
 	}
 
@@ -34,7 +41,8 @@ define([
 			})
 			.done(function(data){
 				graph = graphModel(data);
-				insp = inspectra('#main_graph').populate(graph);
+				if (insp === undefined) insp = inspectra('#main_graph');
+				insp.populate(graph);
 				loadSuccess = true;
 			})
 			.fail(function() {
@@ -53,7 +61,7 @@ define([
 			$('#opacity-slider').empty().slider({
 				min: 0,
 				max: 1,
-				value: 0.5,
+				value: 0.2,
 				range: 'min',
 				orientation: 'horizontal',
 				step: 0.05,
@@ -76,17 +84,18 @@ define([
 			$('#compositing').on('change', function(evt, ui) {
 				insp.vis.drawingProperties({edgeCompositeOperation : $(this).val()}).draw();
 			});
-			$('#graph_1_color').on('change', function(evt, ui) {
-				insp.edgeColor('1', $(this).val()).draw();
+
+			['1','2'].forEach ( function (graph_num){
+				$('#graph_' + graph_num + '_color').on('change', function(evt, ui) {
+					insp.edgeColor(graph_num, $(this).val()).draw();
+				});
 			});
-			$('#graph_2_color').on('change', function(evt, ui) {
-				insp.edgeColor('2', $(this).val()).draw();
-			});
+
 			$('#edge-checkbox').on('change', function(evt)  {
 				insp.vis.configProperties({auto: false, drawNodes: 2, drawEdges: $(this).is(':checked') ? 2 : 0, drawLabels: 2 });
 				insp.draw();
 			});
-			
+
 			$('#node-size-slider').empty().slider({
 				min: 0,
 				max: 5,
@@ -107,45 +116,49 @@ define([
 			});
 			$( "#node-size" ).val( $( "#node-size-slider" ).slider( "value" ) );
 
-			$('#delta-f1-cutoff-slider').empty().slider({
-				min: 0.0001,
-				max: 0.02,
-				value: 0.02,
-				range: 'min',
-				orientation: 'horizontal',
-				step: 0.0001,
-				slide: function(evt, ui) {
-					var val = Math.round(ui.value*10000)/10000;
-					$('#delta-f1-cutoff').val(val);
-				},
-				stop: function(evt, ui) {
-					var val = Math.round(ui.value*10000)/10000;
-					$('#delta-f1-cutoff').val(val);
-					filterClusters();
-					insp.draw();
-				}
-			});
-			$('#delta-f1-cutoff').val( $('#delta-f1-cutoff-slider').slider("value") );
+			['x','y'].forEach( function ( attr) { 
 
-			$('#min-cluster-size-slider').empty().slider({
-				min: 1,
-				max: 100,
-				value: 2,
-				range: 'min',
-				orientation: 'horizontal',
-				step: 1,
-				slide: function(evt, ui) {
-					var val = Math.round(ui.value*10000)/10000;
-					$('#min-cluster-size').val(val);
-				},
-				stop: function(evt, ui) {
-					var val = Math.round(ui.value*10000)/10000;
-					$('#min-cluster-size').val(val);
-					filterClusters();
-					insp.draw();
-				}
+				$('#' + attr + '-delta-f1-cutoff-slider').empty().slider({
+					min: 0.0001,
+					max: 0.02,
+					value: 0.02,
+					range: 'min',
+					orientation: 'horizontal',
+					step: 0.0001,
+					slide: function(evt, ui) {
+						var val = Math.round(ui.value*10000)/10000;
+						$('#' + attr + '-delta-f1-cutoff').val(val);
+					},
+					stop: function(evt, ui) {
+						var val = Math.round(ui.value*10000)/10000;
+						$('#' + attr + '-delta-f1-cutoff').val(val);
+						filterClusters(attr);
+						insp.draw();
+					}
+				});
+				$('#' + attr + '-delta-f1-cutoff').val( $('#' + attr + '-delta-f1-cutoff-slider').slider("value") );
+
+				$('#' + attr + '-min-cluster-size-slider').empty().slider({
+					min: 1,
+					max: 100,
+					value: 2,
+					range: 'min',
+					orientation: 'horizontal',
+					step: 1,
+					slide: function(evt, ui) {
+						var val = Math.round(ui.value*10000)/10000;
+						$('#' + attr + '-min-cluster-size').val(val);
+					},
+					stop: function(evt, ui) {
+						var val = Math.round(ui.value*10000)/10000;
+						$('#' + attr + '-min-cluster-size').val(val);
+						filterClusters(attr);
+						insp.draw();
+					}
+				});
+				$('#' + attr + '-min-cluster-size').val( $('#' + attr + '-min-cluster-size-slider').slider("value") );
+				
 			});
-			$('#min-cluster-size').val( $('#min-cluster-size-slider').slider("value") );
 		
 		},
 		start : function() {
