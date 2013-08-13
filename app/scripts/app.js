@@ -23,6 +23,7 @@ define([
 			return (delta <= cutoff); } 
 			, minSize, attr);
 		insp.populate(insp.graph);
+		insp.drawClusters(attr);
 	}
 
 	function resizeNodes() {

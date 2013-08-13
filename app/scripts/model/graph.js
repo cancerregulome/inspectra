@@ -101,7 +101,16 @@ return function(graph) {
 			return _.map(cluster, function(c) {
 				var xExtent = d3.extent(c, function(d) { return __.nodeOrder[cluster_attr][d].x;});
 				var yExtent = d3.extent(c, function(d) { return __.nodeOrder[cluster_attr][d].y;});
-				return { attr: cluster_attr, color: __.nodeOrder[cluster_attr][c[0]].color, x0: xExtent[0], y0: yExtent[0], x1: xExtent[1], y1: yExtent[1] };
+				return { 
+					attr: cluster_attr, 
+					color: __.nodeOrder[cluster_attr][c[0]].color, 
+					box: { 
+						x0: xExtent[0], 
+						y0: yExtent[0], 
+						x1: xExtent[1], 
+						y1: yExtent[1] 
+					} 
+				};
 			});
 		}
 
