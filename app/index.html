@@ -100,33 +100,21 @@
                                     <div id="y-min-cluster-size-slider" style="width:70px; display:inline-block; margin-left:7px; margin-right:10px;"></div>
                                     <input type="text" class="input-mini" id="y-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />                        
                                 </label>
-                                 
-                            </div>
-                        </div>
-                        <div class="span9">
-                            <div id="main_graph" class="inspectra" style="height:750px"></div>
-                            <div class="well graph_controls controls">
-                                <div style="display:inline-block; height:60px">
-                                    <label for="node-size">
-                                        Node Size:
+                                <h4>Nodes</h4>
+                                 <label for="node-size">
+                                        Size:
                                         <div id="node-size-slider" style="width:70px;display:inline-block; margin-left:7px; margin-right:10px;"></div>
                                         <input type="text" class="input-mini" id="node-size" style="border: 0; color: #f6931f; font-weight: bold;" />
                                     </label>
-                                </div>
-                                <div style="display:inline-block; height:60px">
-                                    <label for="opacity">
+                                    <h4>Edges</h4>
+                                     <label class="checkbox">
+                                        <input id="edge-checkbox" type="checkbox" checked>Display</label>
+                                     <label for="opacity">
                                         Opacity:
                                         <div id="opacity-slider" style="width:70px;display:inline-block; margin-left:7px; margin-right:10px;"></div>
                                         <input type="text" class="input-mini" id="opacity" style="border: 0; color: #f6931f; font-weight: bold;" />
                                     </label>
-                                </div>
-                                <div style="display:inline-block; height:60px">
-                                    <label class="checkbox">
-                                        <input id="edge-checkbox" type="checkbox" checked>Show Edges</label>
-                                </div>
-                                <br/>
-<div style="display:inline-block; height:60px">
-                                <label for="compositing">Composite: 
+                                 <label for="compositing">Composite: 
                                 <select id="compositing" class="input-small">
                                     <option>lighter</option>
                                     <option>darker</option>
@@ -135,9 +123,7 @@
                                     <option>xor</option>
                                 </select>
                             </label>
-                        </div>
-                            <div style="display:inline-block; height:60px">
-                                <label for="graph_2_color">Graph 1 Edges: 
+                            <label for="graph_1_color">Graph 1: 
                                 <select id="graph_1_color" class="input-small">
                                     <option value="rgb(255,0,0)">red</option>
                                     <option value="rgb(0,255,0)" selected>green</option>
@@ -146,9 +132,7 @@
                                     <option value="rgb(255,0,255)">purple</option>
                                 </select>
                             </label>
-                        </div>
-                        <div style="display:inline-block; height:60px">
-                                <label for="graph_2_color">Graph 2 Edges: 
+                              <label for="graph_2_color">Graph 2: 
                                 <select id="graph_2_color" class="input-small">
                                     <option value="rgb(255,0,0)" selected>red</option>
                                     <option value="rgb(0,255,0)">green</option>
@@ -157,7 +141,13 @@
                                     <option value="rgb(255,0,255)">purple</option>
                                 </select>
                             </label>
-</div>
+                            </div>
+                        </div>
+                        <div class="span9">
+                            <div id="main_graph" class="inspectra" style="height:750px"></div>
+                            <div class="well graph_controls controls">
+                            <div style="display:inline-block; height:60px">
+                            </div>
                         </div>
                     </div>
                 </div>
