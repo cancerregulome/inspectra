@@ -73,24 +73,37 @@
                 </div>
                 <div id="main_container" class="container">
                     <div class="row">
-                        <div class="span12">
+                        <div class="span3" class="fiedler-filter">
+                            <div class="controls controls-group">
+                                 <h4>X Axis</h4>
+                                    <label for="x-delta-f1-cutoff">
+                                        Delta:
+                                        <div id="x-delta-f1-cutoff-slider" style="width:70px; display:inline-block; margin-left:7px; margin-left:7px; margin-right:10px;"></div>
+                                        <input type="text" class="input-mini" id="x-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />                        
+                                    </label>
+                                     <label for="x-min-cluster-size">
+                                    Size:
+                                    <div id="x-min-cluster-size-slider" style="width:70px; display:inline-block; margin-left:7px; margin-right:10px;"></div>
+                                    <input type="text" class="input-mini" id="x-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />                        
+                                </label>
+                                <h4>Y Axis</h4>
+                                    <label for="y-delta-f1-cutoff">
+                                        Delta:
+                                        <div id="y-delta-f1-cutoff-slider" style="width:70px; display:inline-block; margin-left:7px; margin-left:7px; margin-right:10px;"></div>
+                                        <input type="text" class="input-mini" id="y-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />                        
+                                    </label>
+                               
+                                <label for="y-min-cluster-size">
+                                    Size:
+                                    <div id="y-min-cluster-size-slider" style="width:70px; display:inline-block; margin-left:7px; margin-right:10px;"></div>
+                                    <input type="text" class="input-mini" id="y-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />                        
+                                </label>
+                                 
+                            </div>
+                        </div>
+                        <div class="span9">
                             <div id="main_graph" class="inspectra" style="height:750px"></div>
                             <div class="well graph_controls controls">
-                                <div style="display:inline-block; height:60px">
-                                    <label for="delta-f1-cutoff">
-                                        Clustering Cutoff:
-                                        <div id="delta-f1-cutoff-slider" style="width:70px; display:inline-block; margin-left:7px; margin-left:7px; margin-right:10px;"></div>
-                                        <input type="text" class="input-mini" id="delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                    </label>
-                                </div>
-                                <div style="display:inline-block; height:60px">
-                                    <label for="min-cluster-size">
-                                        Minimum Cluster Size:
-                                        <div id="min-cluster-size-slider" style="width:70px; display:inline-block; margin-left:7px; margin-right:10px;"></div>
-                                        <input type="text" class="input-mini" id="min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                    </label>
-                                    </div>
-                                    <br/>
                                 <div style="display:inline-block; height:60px">
                                     <label for="node-size">
                                         Node Size:
