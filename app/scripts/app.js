@@ -11,6 +11,7 @@ define([
 	var loadSuccess = false;
 	var graph;
 	var lastFilterAttr = 'x';
+	var debounceInterval = 500;
 
 	function filterClusters(attr) {
 		attr = attr || lastFilterAttr;
@@ -57,7 +58,7 @@ define([
 		initialize : function(callback) {
 			
 			loadJson( $('#dataset').val(), callback);
-			
+		
 			$('#opacity-slider').empty().slider({
 				min: 0,
 				max: 1,
@@ -69,12 +70,12 @@ define([
 					var val = Math.round(ui.value*100)/100;
 					$('#opacity').val(val);
 				},
-				stop: function(evt, ui) {
+				stop: _.debounce( function (evt, ui) {
 					var val = Math.round(ui.value*100)/100;
 					$('#opacity').val(val);
 					changeAlpha();
 					insp.draw();
-				}
+				}, debounceInterval)
 			});
 			$('#dataset').on('change', function(evt, ui) {
 				loadJson($(this).val(), function() { insp.draw() } );
@@ -107,12 +108,12 @@ define([
 					var val = Math.round(ui.value*100)/100;
 					$('#node-size').val(val);
 				},
-				stop: function(evt, ui) {
+				stop: _.debounce(function(evt, ui) {
 					var val = Math.round(ui.value*100)/100;
 					$('#node-size').val(val);
 					resizeNodes();
 					insp.draw();
-				}
+				}, debounceInterval)
 			});
 			$( "#node-size" ).val( $( "#node-size-slider" ).slider( "value" ) );
 
@@ -129,12 +130,12 @@ define([
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-delta-f1-cutoff').val(val);
 					},
-					stop: function(evt, ui) {
+					stop: _.debounce(function(evt, ui) {
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-delta-f1-cutoff').val(val);
 						filterClusters(attr);
 						insp.draw();
-					}
+					}, debounceInterval )
 				});
 				$('#' + attr + '-delta-f1-cutoff').val( $('#' + attr + '-delta-f1-cutoff-slider').slider("value") );
 
@@ -149,12 +150,12 @@ define([
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-min-cluster-size').val(val);
 					},
-					stop: function(evt, ui) {
+					stop: _.debounce(function(evt, ui) {
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-min-cluster-size').val(val);
 						filterClusters(attr);
 						insp.draw();
-					}
+					}, debounceInterval)
 				});
 				$('#' + attr + '-min-cluster-size').val( $('#' + attr + '-min-cluster-size-slider').slider("value") );
 				
