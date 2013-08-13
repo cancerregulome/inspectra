@@ -41,6 +41,7 @@ return function build(selector) {
 				maxNodeSize: 1,
 				minEdgeSize: 0.5,
 				maxEdgeSize: 4,
+				sideMargin: 10
 			}).mouseProperties({
 				maxRatio: 16
 			}).bind('stopbrush', function(e) {
@@ -76,6 +77,10 @@ return function build(selector) {
 		edgeColors[graph_id] = color;
 		return this;
 	};
+
+	inspectra.drawClusters = function(cluster_attr) {
+
+	}
 
 	return inspectra;
 };
