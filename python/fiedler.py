@@ -627,7 +627,7 @@ def main():
     fied["adj"] = adj_list
     fied["iByn"] = iByn
     fied["nByi"] = nByi
-    fo = open(fn + str(filter_min) + ".continuous.json", "w")
+    fo = open(fn +"."+ str(filter_min) + ".json", "w")
     json.dump(fied, fo)
     fo.close()
 
