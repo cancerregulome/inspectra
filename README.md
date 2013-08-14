@@ -1,7 +1,9 @@
 Inspectra
 ==========
 
-Inspectra is a tool for spectral comparison of graph topology.
+![Screen shot](inspectrascreenshot.png "A screen shot of the HTML5 visualization of comunities in two overlapping cancer graphs")
+
+Inspectra is a tool for spectral comparison of graph topology using pyton for analysis and HTML5 for interactive visualization.
 
 Python Dependencies
 ----------------
