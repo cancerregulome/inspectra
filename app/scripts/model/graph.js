@@ -21,16 +21,19 @@ return function(graph) {
 		nodeTree: null,   //think about transmitting tree from server side... rbush on node.js server 
 		edgeTree: null,
 
+		clusterTree: rbush(50, ['.box.x0','.box.y0','.box.x1','.box.y1']),
 		clusters: {}
 	};
 
-		var clusterColors = [
-				"#88BC53", //green
-				"#A366C7", //purple
-				"#BB6634", // burnt orange
-				"#6199AD", // blue
-				"#BC537B" // rose
-		],
+	var clusterColors = [
+			"#88BC53", //green
+			"#A366C7", //purple
+			"#BB6634", // burnt orange
+			"#6199AD", // blue
+			"#BC537B" // rose
+	],
+
+	filteredOutColor = "#FFFFFF",
 	numColors = clusterColors.length;
 
 	var graphModel = {
@@ -78,52 +81,80 @@ return function(graph) {
 
 			_.each(cluster, function(c, index) {
 				cluster_num = -1;
-				cluster_color = "#FFFFFF";
+				cluster_color = filteredOutColor;
+
 				if (c.length >= min_size) { 
 					cluster_num = cluster_index++; 
-					cluster_color = clusterColors[index%numColors]; 
-					__.clusters[order_attr].push(c);
+					cluster_color = clusterColors[index%numColors];
+					__.clusters[order_attr].push({nodes: c, color: cluster_color});
 				}
-				_.each(c, function(n) { __.nodeOrder[order_attr][n]['cluster_' + order_attr] = cluster_num; __.nodeOrder[order_attr][n].color = cluster_color; });
+				c.forEach(function(n){ __.nodeOrder[order_attr][n].color = cluster_color; });
 			});
 
-			self.nodes =  __.nodes;
+			this.loadClusterTree();
 
-			self.edges = __.edges;
+			this.nodes =  __.nodes;
 
-			return self;
+			this.edges = __.edges;
+
+			return this;
 		},
 
-		getClusters : function(cluster_attr) {
-			var attr = 'cluster_' + cluster_attr;
-			var cluster = __.clusters[cluster_attr];
-
-			return _.map(cluster, function(c) {
-				var xExtent = d3.extent(c, function(d) { return __.nodeOrder[cluster_attr][d].x;});
-				var yExtent = d3.extent(c, function(d) { return __.nodeOrder[cluster_attr][d].y;});
-				return { 
-					attr: cluster_attr, 
-					color: __.nodeOrder[cluster_attr][c[0]].color, 
-					box: { 
-						x0: xExtent[0], 
-						y0: yExtent[0], 
-						x1: xExtent[1], 
-						y1: yExtent[1] 
-					} 
-				};
+		loadClusterTree : function() {
+			var clusters = _.pairs(__.clusters);
+			var tClusters = [];
+			var attribute, nodeClusters, color, nodes;
+			clusters.forEach( function(c) {
+				attribute = c[0]; nodeClusters = c[1];
+				nodeClusters.forEach( function(n) {
+					var xExtent = d3.extent(n.nodes, function(d) { return __.nodeOrder[attribute][d].x;});
+					var yExtent = d3.extent(n.nodes, function(d) { return __.nodeOrder[attribute][d].y;});
+					tClusters.push( { 
+						attr: attribute, 
+						color: n.color, 
+						box: { 
+							x0: xExtent[0], 
+							y0: yExtent[0], 
+							x1: xExtent[1], 
+							y1: yExtent[1] 
+						} 
+					});
+				});
 			});
-		}
 
-	};
+			__.clusterTree.clear();
+			
+			__.clusterTree.load(tClusters);
+		},
+
+		isClustered : function() {
+			return __.clusterTree !== null;
+		},
+
+	getClustersInFrame : function(frame) {
+		var x0,x1,y0,y1;
+		if (frame.length === undefined) {
+			var tFrame = [frame.x0, frame.y0, frame.x1, frame.y1];
+			frame = tFrame;
+		}
+		var result = _.uniq(__.clusterTree.search(frame), false, function(a) { return a.box;});
+		return result; 
+	}
+
+};
 
 	function loadNodes(nodes) {
 		__.nodeTree.clear();
 		var nodePositions = nodes.map(function(node) {		
 			return { id : node.id, x0: node.x, y0: node.y, x1: node.x+.1, y1: node.y+.1 };
 		});
+
+		__.nodeExtent = {
+			x : d3.extent(nodes, function(n) { return n.x; }),
+			y : d3.extent(nodes, function(n) { return n.y; })
+		};
 		
-		__.nodeTree.load(nodePositions);
-	
+		__.nodeTree.load(nodePositions);	
 
 	}
 
@@ -159,6 +190,7 @@ return function(graph) {
 	__.edges = _.compact(edges);
 
 	loadNodes(__.nodes);
+
 	_.extend(graphModel, {nodes: __.nodes, edges: __.edges});
 
 	return graphModel;

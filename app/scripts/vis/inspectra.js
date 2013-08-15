@@ -61,6 +61,8 @@ return function build(selector) {
 		console.log(inspectra.graph.getNodesInBox(boundaries));
 	}).bind('downnodes', function(e, nodes) {
 		console.log(e.content)
+	}).bind('graphscaled', function(e){
+		inspectra.graph.isClustered() && inspectra.drawClusters();
 	});
 
 	var $clusterEl = $('<div>').addClass('clusters')
@@ -84,15 +86,21 @@ return function build(selector) {
 	var rectOverlay = clusterSVG.append('g')
 	.attr('transform','translate(20,20)');
 
+	inspectra.clusterGroup = null;
+	inspectra.clusterData = [];
+
 	inspectra.vis = sigma_obj;
-	inspectra.$el = $sigmaEl;
+	inspectra.$el = $el;
+	inspectra.$sigmaEl = $sigmaEl;
+	inspectra.$clusterEl = $clusterEl;
 
 
 	inspectra.populate = function(graph) {
 		var self = this;
 		self.graph = graph;
 		self.vis.emptyGraph();
-		self.vis.pushGraph(graph)
+		self.vis.pushGraph(graph);
+
 		return self;
 	};
 
@@ -106,71 +114,65 @@ return function build(selector) {
 		return this;
 	};
 
-	inspectra.drawClusters = function(cluster_attr) {
+	inspectra.drawClusters = function() {
+		var self = this;
 
-		rectOverlay.selectAll('rect.'+cluster_attr).remove();
+		var screenPos = this.vis.position();
 
-		this.graph.getClusters(cluster_attr).forEach(this.drawClusterRectangle, this);
+		var invert = {
+			x : function(p) { return self.vis.graphProperties("invertX")((p - screenPos.stageX) / screenPos.ratio); } ,
+			y : function(p) { return self.vis.graphProperties("invertY")((p- screenPos.stageY) / screenPos.ratio); }
+		};
+
+		var scale = {
+			x : function(p) { return self.vis.graphProperties("scaleX")(p) * screenPos.ratio + screenPos.stageX; },
+			y : function(p) { return self.vis.graphProperties("scaleY")(p) * screenPos.ratio + screenPos.stageY; }
+		};
+
+		var frame = [invert.x(0), invert.y(0), invert.x(this.$sigmaEl.width()) , invert.y(this.$sigmaEl.height())];
+
+		self.clusterData = this.graph.getClustersInFrame(frame);
+
+		self.clusterGroup = rectOverlay.selectAll('rect')
+		.data(self.clusterData, function(c) {
+			return _.values(c.box);
+		});
+
+		self.clusterGroup.enter()
+			.append('rect')
+			.attr('class',function(c) { return c.attr;})
+			.attr('rx','10')
+			.attr('ry','10')
+			.style('fill', 'none')
+			.style('stroke', function(c) { return c.color; })
+			.style('stroke-width','4')
+			.style('stroke-opacity','0.4')
+			.on('mouseover', function() {
+				d3.select(this)
+					.style('stroke-opacity','0.9');
+			})
+			.on('mouseout', function() {
+				d3.select(this)
+				.style('stroke-opacity','0.4');
+			});
+
+		self.clusterGroup.filter('.x')
+			.style('stroke', function(c) { return c.color; })
+			.attr('width', function(c) { return scale.x(c.box.x1) - scale.x(c.box.x0); } )
+			.attr('height', height+20)
+			.attr('x', function(c) { return scale.x(c.box.x0); })
+			.attr('y', '-10');
+
+		self.clusterGroup.filter('.y')
+			.style('stroke', function(c) { return c.color; })
+			.attr('width', width + 20)
+			.attr('height', function(c) { return scale.y(c.box.y1) - scale.y(c.box.y0); })
+			.attr('x', '-10')
+			.attr('y', function(c) { return scale.y(c.box.y0); } )
+
+		self.clusterGroup.exit().remove();
 
 	};
-
-	inspectra.drawClusterRectangle = function(cluster) {
-
-		if (cluster.attr === 'y') this.drawClusterRectangleY(cluster);
-		else if (cluster.attr === 'x') this.drawClusterRectangleX(cluster);
-	}
-
-	inspectra.drawClusterRectangleX = function(cluster) {
-		var box = cluster.box;
-		var scaleX = this.vis.graphProperties("scaleX");
-		rectOverlay.append('rect')
-			.attr('class', 'x')
-			.attr('width', scaleX(box.x1) - scaleX(box.x0))
-			.attr('height', height+20)
-			.attr('x', scaleX(box.x0))
-			.attr('y', '-10')
-			.attr('rx','10')
-			.attr('ry','10')
-			.style('fill', 'none')
-			.style('stroke', cluster.color)
-			.style('stroke-width','4')
-			.style('stroke-opacity','0.4')
-			.on('mouseover', function() {
-				d3.select(this)
-					.style('stroke-opacity','0.9');
-			})
-			.on('mouseout', function() {
-				d3.select(this)
-				.style('stroke-opacity','0.4');
-			});
-
-	}
-
-	inspectra.drawClusterRectangleY = function(cluster) {
-		var box = cluster.box;
-		var scaleY = this.vis.graphProperties("scaleY");
-		rectOverlay.append('rect')
-			.attr('class', 'y')
-			.attr('width', width + 20)
-			.attr('height', scaleY(box.y1) - scaleY(box.y0))
-			.attr('x', '-10')
-			.attr('y', scaleY(box.y0) )
-			.attr('rx','10')
-			.attr('ry','10')
-			.style('fill', 'none')
-			.style('stroke', cluster.color)
-			.style('stroke-width','4')
-			.style('stroke-opacity','0.4')
-			.on('mouseover', function() {
-				d3.select(this)
-					.style('stroke-opacity','0.9');
-			})
-			.on('mouseout', function() {
-				d3.select(this)
-				.style('stroke-opacity','0.4');
-			});
-
-	}
 
 	return inspectra;
 };
