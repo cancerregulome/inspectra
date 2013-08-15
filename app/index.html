@@ -67,104 +67,112 @@
                 <div id="main_container" class="container">
                     <div class="row">
                         <div class="span3" class="fiedler-filter">
-                             <form class="form-inline">
-                                    <span class="navbar-text" for="dataset">Dataset:</span>
-                                    <select id="dataset" class="input-mini">
-                                        <option value="test" selected>1</option>
-                                        <option value="test2">2</option>
-                                        <option value="test3">3</option>
-                                        <option value="test4">4</option>
-                                    </select>
-                                </form>
+                            <form class="form-inline">
+                                <span class="navbar-text" for="dataset">Dataset:</span>
+                                <select id="dataset" class="input-mini">
+                                    <option value="test" selected>1</option>
+                                    <option value="test2">2</option>
+                                    <option value="test3">3</option>
+                                    <option value="test4">4</option>
+                                </select>
+                            </form>
                             <div class="controls controls-group">
-                                 <h4>X Axis</h4>
-                                    <label for="x-delta-f1-cutoff">
-                                        Delta:
-                                        <div id="x-delta-f1-cutoff-slider" style="width:70px; display:inline-block; margin-left:7px; margin-left:7px; margin-right:10px;"></div>
-                                        <input type="text" class="input-mini" id="x-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />                        
-                                    </label>
-                                     <label for="x-min-cluster-size">
+                                <h4>X Axis</h4>
+                                <label for="x-delta-f1-cutoff">
+                                    Delta:
+                                    <div id="x-delta-f1-cutoff-slider" style="width:70px; display:inline-block; margin-left:7px; margin-left:7px; margin-right:10px;"></div>
+                                    <input type="text" class="input-mini" id="x-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                </label>
+                                <label for="x-min-cluster-size">
                                     Size:
                                     <div id="x-min-cluster-size-slider" style="width:70px; display:inline-block; margin-left:7px; margin-right:10px;"></div>
-                                    <input type="text" class="input-mini" id="x-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />                        
+                                    <input type="text" class="input-mini" id="x-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
                                 </label>
                                 <h4>Y Axis</h4>
-                                    <label for="y-delta-f1-cutoff">
-                                        Delta:
-                                        <div id="y-delta-f1-cutoff-slider" style="width:70px; display:inline-block; margin-left:7px; margin-left:7px; margin-right:10px;"></div>
-                                        <input type="text" class="input-mini" id="y-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />                        
-                                    </label>
-                               
+                                <label for="y-delta-f1-cutoff">
+                                    Delta:
+                                    <div id="y-delta-f1-cutoff-slider" style="width:70px; display:inline-block; margin-left:7px; margin-left:7px; margin-right:10px;"></div>
+                                    <input type="text" class="input-mini" id="y-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                </label>
+
                                 <label for="y-min-cluster-size">
                                     Size:
                                     <div id="y-min-cluster-size-slider" style="width:70px; display:inline-block; margin-left:7px; margin-right:10px;"></div>
-                                    <input type="text" class="input-mini" id="y-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />                        
+                                    <input type="text" class="input-mini" id="y-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
                                 </label>
                                 <h4>Nodes</h4>
-                                 <label for="node-size">
-                                        Size:
-                                        <div id="node-size-slider" style="width:70px;display:inline-block; margin-left:7px; margin-right:10px;"></div>
-                                        <input type="text" class="input-mini" id="node-size" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                    </label>
-                                    <h4>Edges</h4>
-                                     <label class="checkbox">
-                                        <input id="edge-checkbox" type="checkbox" checked>Display</label>
-                                     <label for="opacity">
-                                        Opacity:
-                                        <div id="opacity-slider" style="width:70px;display:inline-block; margin-left:7px; margin-right:10px;"></div>
-                                        <input type="text" class="input-mini" id="opacity" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                    </label>
-                                 <label for="compositing">Composite: 
-                                <select id="compositing" class="input-small">
-                                    <option>lighter</option>
-                                    <option>darker</option>
-                                    <option value="source-over">graph 1</option>
-                                    <option value="destination-over">graph 2</option>
-                                    <option>xor</option>
-                                </select>
-                            </label>
-                            <label for="graph_1_color">Graph 1: 
-                                <select id="graph_1_color" class="input-small">
-                                    <option value="rgb(255,0,0)">red</option>
-                                    <option value="rgb(0,255,0)" selected>green</option>
-                                    <option value="rgb(0,0,255)">blue</option>
-                                    <option value="rgb(255,255,0)">yellow</option>
-                                    <option value="rgb(255,0,255)">purple</option>
-                                </select>
-                            </label>
-                              <label for="graph_2_color">Graph 2: 
-                                <select id="graph_2_color" class="input-small">
-                                    <option value="rgb(255,0,0)" selected>red</option>
-                                    <option value="rgb(0,255,0)">green</option>
-                                    <option value="rgb(0,0,255)">blue</option>
-                                    <option value="rgb(255,255,0)">yellow</option>
-                                    <option value="rgb(255,0,255)">purple</option>
-                                </select>
-                            </label>
+                                <label for="node-size">
+                                    Size:
+                                    <div id="node-size-slider" style="width:70px;display:inline-block; margin-left:7px; margin-right:10px;"></div>
+                                    <input type="text" class="input-mini" id="node-size" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                </label>
+                                <h4>Edges</h4>
+                                <label class="checkbox">
+                                    <input id="edge-checkbox" type="checkbox" checked />
+                                    Display
+                                </label>
+                                <label for="opacity">
+                                    Opacity:
+                                    <div id="opacity-slider" style="width:70px;display:inline-block; margin-left:7px; margin-right:10px;"></div>
+                                    <input type="text" class="input-mini" id="opacity" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                </label>
+                                <label for="compositing">
+                                    Composite:
+                                    <select id="compositing" class="input-small">
+                                        <option>lighter</option>
+                                        <option>darker</option>
+                                        <option value="source-over">graph 1</option>
+                                        <option value="destination-over">graph 2</option>
+                                        <option>xor</option>
+                                    </select>
+                                </label>
+                                <label for="graph_1_color">
+                                    Graph 1:
+                                    <select id="graph_1_color" class="input-small">
+                                        <option value="rgb(255,0,0)">red</option>
+                                        <option value="rgb(0,255,0)" selected>green</option>
+                                        <option value="rgb(0,0,255)">blue</option>
+                                        <option value="rgb(255,255,0)">yellow</option>
+                                        <option value="rgb(255,0,255)">purple</option>
+                                    </select>
+                                </label>
+                                <label for="graph_2_color">
+                                    Graph 2:
+                                    <select id="graph_2_color" class="input-small">
+                                        <option value="rgb(255,0,0)" selected>red</option>
+                                        <option value="rgb(0,255,0)">green</option>
+                                        <option value="rgb(0,0,255)">blue</option>
+                                        <option value="rgb(255,255,0)">yellow</option>
+                                        <option value="rgb(255,0,255)">purple</option>
+                                    </select>
+                                </label>
                             </div>
+                            <label class="checkbox">
+                                <input id="background-color-checkbox" type="checkbox" checked />
+                                Dark Background
+                            </label>
                         </div>
                         <div class="span9">
                             <div id="main_graph" class="inspectra" style="height:750px"></div>
                             <div class="well graph_controls controls">
-                            <div style="display:inline-block; height:60px">
+                                <div style="display:inline-block; height:60px"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--[if lt IE 7]>
-            <p class="chromeframe">
-                You are using an <strong>outdated</strong>
-                browser. Please
-                <a href="http://browsehappy.com/">upgrade your browser</a>
-                or
-                <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a>
-                to improve your experience.
-            </p>
-            <![endif]-->
+                <!--[if lt IE 7]>
+                <p class="chromeframe">
+                    You are using an <strong>outdated</strong>
+                    browser. Please
+                    <a href="http://browsehappy.com/">upgrade your browser</a>
+                    or
+                    <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a>
+                    to improve your experience.
+                </p>
+                <![endif]-->
 
-            <!-- build:js scripts/inspectra.js -->
-            <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
-            <!-- endbuild -->
+                <!-- build:js scripts/inspectra.js -->
+                <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
+                <!-- endbuild -->
 </body>
-        </html>
+            </html>

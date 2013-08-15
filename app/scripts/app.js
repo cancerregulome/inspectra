@@ -18,12 +18,12 @@ define([
 		var cutoff = $('#' + attr + '-delta-f1-cutoff-slider').slider("value"),
 			graph = attr === 'x' ? 'graph1' : 'graph2',
 		 	minSize = $('#' + attr + '-min-cluster-size-slider').slider("value");
-		insp.graph.assignClustersAtCutoff( function(node1, node2) { 
+		insp.graph.assignClustersAtCutoff.call(insp.graph, function(node1, node2) { 
 			var delta = Math.abs(node2[graph].f1 - node1[graph].f1);
 			return (delta <= cutoff); } 
 			, minSize, attr);
 		insp.populate(insp.graph);
-		insp.drawClusters(attr);
+		insp.drawClusters();
 	}
 
 	function resizeNodes() {
@@ -102,6 +102,11 @@ define([
 				insp.vis.configProperties({auto: false, drawNodes: 2, drawEdges: $(this).is(':checked') ? 2 : 0, drawLabels: 2 });
 				insp.draw();
 			});
+
+			$('#background-color-checkbox').on('change', function(evt)  {
+				insp.$el.css({background: $(this).is(':checked') ? '#000' : '#FFF' });
+			});
+
 
 			$('#node-size-slider').empty().slider({
 				min: 0,
