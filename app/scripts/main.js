@@ -7,7 +7,8 @@ require.config({
         rbush: '../bower_components/rbush/rbush',
         jDataView: '../bower_components/jDataView/src/jDataView',
         jBinary : '../bower_components/jBinary/src/jBinary',
-        crossfilter: '../bower_components/crossfilter/crossfilter'
+        crossfilter: '../bower_components/crossfilter/crossfilter',
+        fineuploader: 'vendor/fineuploader'
     },
     shim: {
         underscore: {
