@@ -71,7 +71,10 @@ import random
 import itertools
 import os
 
-
+try:
+    import hypergeom
+except ImportError:
+    print "hypergeom not found"
 
 import numpy
 import scipy
@@ -90,7 +93,7 @@ import matplotlib.pyplot as plt
 from sklearn import mixture
 from sklearn.cluster import DBSCAN
 
-import hypergeom
+
 
 
 def file_parse(fo, node1=0, node2=1, filter_col=-1, filter_min=.5, val_col=-1, blacklist=[]):
