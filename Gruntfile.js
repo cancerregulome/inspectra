@@ -45,12 +45,19 @@ module.exports = function (grunt) {
                 hostname: '0.0.0.0'
             },
             proxies: [{
-                    context: '/svc',
+                    context: '/upload',
                     host: '0.0.0.0', // you can use localhost...
                     port: 9401, // enter your port number here...
                     https: false,
                     changeOrigin: false
-                }
+                },
+		{
+		   context: '/view',
+		   host: '0.0.0.0',
+		   port: 9401,
+		   https: false,
+		   changeOrigin: false
+		}
             ],
             livereload: {
                 options: {

@@ -24,13 +24,14 @@
                 <link rel="stylesheet" href="styles/bootstrap.css">
                 <link rel="stylesheet" href="styles/jquery-ui-1.10.0.custom.css">
                 <!-- endbuild -->
+
                 <!-- build:css css/main.css -->
                 <link rel="stylesheet" href="styles/inspectra.css">
                 <!-- endbuild -->
 
                 <!-- build:js scripts/vendor.js -->                
                 <script src="bower_components/d3/d3.js"></script>
-                <script src="bower_components/sigma/build/sigma.full.js"></script>
+                <script src="bower_components/sigma/sigma.js"></script>
                 <script src="bower_components/modernizr/modernizr.js"></script>
                 <!-- endbuild -->
 </head>
@@ -71,9 +72,8 @@
                             <form class="form-inline">
                                 <span class="navbar-text" for="dataset">Dataset:</span>
                                 <select id="dataset" class="input-mini">
-                                    <option value="test" selected>gbm</option>
-                                    <option value="test4">skcm</option>
-                                </select>
+                                  </select>
+                                <span id="uploader"></span>
                             </form>
                             <div class="controls controls-group">
                                 <h4>X Axis</h4>

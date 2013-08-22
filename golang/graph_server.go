@@ -1,11 +1,16 @@
 package main
 
-import "net/http"
-import "html/template"
-import "io"
-import "io/ioutil"
-import "path/filepath"
-import "encoding/json"
+import (
+	"encoding/json"
+	"html/template"
+	"io"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"os"
+	"path/filepath"
+	"strings"
+)
 
 const (
 	PREFIX     = "graph-"
@@ -17,7 +22,8 @@ type GraphList struct {
 }
 
 type Graph struct {
-	Name string `json:"name"`
+	ID    string `json:"id"`
+	Label string `json:"label"`
 }
 
 var errorTemplate, _ = template.ParseFiles("error.html")
@@ -32,21 +38,26 @@ func errorHandler(fn http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if e, ok := recover().(error); ok {
-				w.WriteHeader(500)
-				errorTemplate.Execute(w, e)
+				w.WriteHeader(200)
+				w.Write([]byte(`{"success": false, "error": "` + e.Error() + `"}`))
 			}
 		}()
 		fn(w, r)
 	}
 }
 
+func Basename(fileName string) string {
+	return strings.TrimSuffix(filepath.Base(fileName), filepath.Ext(fileName))
+}
+
 func listDirectory(w http.ResponseWriter) {
-	list := make([]Graph, 1)
+	list := make([]Graph, 0)
 	files, err := ioutil.ReadDir(UPLOAD_DIR)
 	check(err)
 	for _, f := range files {
-		if f.IsDir() == false && filepath.Ext(f.Name()) == "json" {
-			g := Graph{filepath.Base(f.Name())}
+		if f.IsDir() == false && filepath.Ext(f.Name()) == ".json" {
+			fileName := f.Name()
+			g := Graph{fileName, Basename(fileName)}
 			list = append(list, g)
 		}
 	}
@@ -57,28 +68,37 @@ func listDirectory(w http.ResponseWriter) {
 }
 
 func upload(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "POST" {
-		listDirectory(w)
-		return
-	}
-	f, _, err := r.FormFile("graph")
+	f, fh, err := r.FormFile("graph")
+	fileName := fh.Filename
+	log.Println("Filename: ", fileName)
 	check(err)
 	defer f.Close()
-	t, err := ioutil.TempFile(UPLOAD_DIR, PREFIX)
+	t, err := os.Create(filepath.Join(UPLOAD_DIR, fileName))
 	check(err)
 	defer t.Close()
 	_, err = io.Copy(t, f)
+	uuid := Basename(fileName)
 	check(err)
-	http.Redirect(w, r, "/view?id="+t.Name()[len(PREFIX):], 302)
+	w.Header().Set("Content-Type", "plain/text")
+	w.Write([]byte(`{"success": true, "newUUID": "` + uuid + `"}`))
 }
 
 func view(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	http.ServeFile(w, r, PREFIX+r.FormValue("id"))
+
+	id := r.FormValue("id")
+	if id != "" {
+		fileStr := filepath.Join(UPLOAD_DIR, r.FormValue("id")) + ".json"
+		log.Println("Serve graph file: ", fileStr)
+		w.Header().Set("Content-Type", "application/json")
+		http.ServeFile(w, r, fileStr)
+	} else {
+		listDirectory(w)
+	}
+
 }
 
 func main() {
-	http.HandleFunc("/", errorHandler(upload))
+	http.HandleFunc("/upload", errorHandler(upload))
 	http.HandleFunc("/view", errorHandler(view))
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":9401", nil)
 }

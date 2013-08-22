@@ -27,11 +27,14 @@ require.config({
         bootstrap: {
             deps: ['jquery', 'jqueryui'],
             exports: 'bootstrap'
+        },
+        fineuploader: {
+            exports: "qq"
         }
     }
 });
 
-require(['app', 'underscore', 'jquery', 'jqueryui', 'bootstrap', 'rbush'], function (app, _, $) {
+require(['app', 'underscore', 'jquery', 'jqueryui', 'bootstrap', 'rbush', 'fineuploader'], function (app, _, $) {
     'use strict';
     app.initialize(function(){
         app.start();
