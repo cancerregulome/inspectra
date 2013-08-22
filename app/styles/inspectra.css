@@ -16,3 +16,33 @@ body {
 .graph_controls {
     margin-top: 20px;
 }
+
+/*fine uploader styles*/
+
+#uploader {
+	display: inline-block;
+}
+
+#uploader .qq-uploader {
+	display: inline-block;
+}
+
+#uploader .qq-upload-list {
+    text-align: left;
+}
+
+/* For the bootstrapped fine uploader */
+#uploader li.alert-success {
+background-color: #DFF0D8;
+}
+
+#uploader li.alert-error {
+background-color: #F2DEDE;
+}
+#uploader .qq-upload-drop-area, .qq-upload-extra-drop-area {
+	min-height: 0px;
+}
+
+#uploader .alert-error .qq-upload-failed-text {
+display: inline;
+}

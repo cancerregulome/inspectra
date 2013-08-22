@@ -7,7 +7,8 @@ require.config({
         rbush: '../bower_components/rbush/rbush',
         jDataView: '../bower_components/jDataView/src/jDataView',
         jBinary : '../bower_components/jBinary/src/jBinary',
-        crossfilter: '../bower_components/crossfilter/crossfilter'
+        crossfilter: '../bower_components/crossfilter/crossfilter',
+        fineuploader: 'vendor/fineuploader'
     },
     shim: {
         underscore: {
@@ -26,11 +27,14 @@ require.config({
         bootstrap: {
             deps: ['jquery', 'jqueryui'],
             exports: 'bootstrap'
+        },
+        fineuploader: {
+            exports: "qq"
         }
     }
 });
 
-require(['app', 'underscore', 'jquery', 'jqueryui', 'bootstrap', 'rbush'], function (app, _, $) {
+require(['app', 'underscore', 'jquery', 'jqueryui', 'bootstrap', 'rbush', 'fineuploader'], function (app, _, $) {
     'use strict';
     app.initialize(function(){
         app.start();
