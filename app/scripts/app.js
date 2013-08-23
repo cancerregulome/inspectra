@@ -12,6 +12,15 @@ define([
 	var lastFilterAttr = 'x';
 	var debounceInterval = 500;
 
+	var __ = {
+		visConfig : {
+			auto: false,
+		drawNodes: 2,
+		drawEdges: 1,
+		drawLabels: 2
+	}
+	};
+
 	function filterClusters(attr) {
 		attr = attr || lastFilterAttr;
 		lastFilterAttr = attr;
@@ -44,6 +53,12 @@ define([
 		return insp.vis.drawingProperties("edgeAlpha");
 	}
 
+	function renderOnlyNodes() {
+		insp.vis.configProperties({drawEdges: -1});
+		insp.draw();
+		insp.vis.configProperties(__.visConfig);
+	}
+
 	function loadJson(file, successCallback, failCallback, alwaysCallback) {
 		$.getJSON('view?id='+file, {
 				format: "json"
@@ -51,6 +66,7 @@ define([
 			.done(function(data){
 				graph = graphModel(data);
 				if (insp === undefined) insp = inspectra('#main_graph');
+				insp.vis.configProperties(__.visConfig);
 				insp.populate(graph);
 				if ( typeof successCallback  === 'function' ) {
 					successCallback();
@@ -170,24 +186,26 @@ define([
 
 			$( "#opacity" ).val( $( "#opacity-slider" ).slider( "value" ) );
 			$('#compositing').on('change', function(evt, ui) {
-				insp.vis.drawingProperties({edgeCompositeOperation : $(this).val()}).draw();
+				insp.vis.drawingProperties({edgeCompositeOperation : $(this).val()});
+				insp.draw();
 			});
 
 			['1','2'].forEach ( function (graph_num){
 				$('#graph_' + graph_num + '_color').on('change', function(evt, ui) {
-					insp.edgeColor(graph_num, $(this).val()).draw();
+					insp.edgeColor(graph_num, $(this).val());
+					insp.draw();
 				});
 			});
 
 			$('#edge-checkbox').on('change', function(evt)  {
-				insp.vis.configProperties({auto: false, drawNodes: 2, drawEdges: $(this).is(':checked') ? 2 : 0, drawLabels: 2 });
+				__.visConfig.drawEdges = $(this).is(':checked') ? 1 : 0;
+				insp.vis.configProperties(__.visConfig);
 				insp.draw();
 			});
 
 			$('#background-color-checkbox').on('change', function(evt)  {
 				insp.$el.css({background: $(this).is(':checked') ? '#000' : '#FFF' });
 			});
-
 
 			$('#node-size-slider').empty().slider({
 				min: 0,
@@ -205,13 +223,12 @@ define([
 					if (val === getNodeSize()) {return false;}
 					$('#node-size').val(val);
 					setNodeSize();
-					insp.draw();
+					renderOnlyNodes();
 				}, debounceInterval)
 			});
 			$( "#node-size" ).val( $( "#node-size-slider" ).slider( "value" ) );
 
 			['x','y'].forEach( function ( attr) { 
-
 				$('#' + attr + '-delta-f1-cutoff-slider').empty().slider({
 					min: 0.0001,
 					max: 0.02,
@@ -227,7 +244,7 @@ define([
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-delta-f1-cutoff').val(val);
 						filterClusters(attr);
-						insp.draw();
+						renderOnlyNodes();
 					}, debounceInterval )
 				});
 				$('#' + attr + '-delta-f1-cutoff').val( $('#' + attr + '-delta-f1-cutoff-slider').slider("value") );
@@ -247,7 +264,7 @@ define([
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-min-cluster-size').val(val);
 						filterClusters(attr);
-						insp.draw();
+						renderOnlyNodes();
 					}, debounceInterval)
 				});
 				$('#' + attr + '-min-cluster-size').val( $('#' + attr + '-min-cluster-size-slider').slider("value") );

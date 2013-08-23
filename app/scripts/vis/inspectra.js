@@ -105,7 +105,8 @@ return function build(selector) {
 	};
 
 	inspectra.draw = function() {
-		this.vis.draw();
+		var args = arguments
+		this.vis.draw.apply(this,args);
 		return this;
 	};
 
