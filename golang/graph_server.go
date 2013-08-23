@@ -100,5 +100,6 @@ func view(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/upload", errorHandler(upload))
 	http.HandleFunc("/view", errorHandler(view))
-	http.ListenAndServe(":9401", nil)
+	http.Handle("/", http.FileServer(http.Dir("../dist/")))
+	http.ListenAndServe(":9400", nil)
 }
