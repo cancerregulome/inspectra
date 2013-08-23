@@ -26,14 +26,22 @@ define([
 		insp.drawClusters();
 	}
 
-	function resizeNodes() {
-		var val = $('#node-size-slider').slider("value");
-		insp.vis.graphProperties({minNodeSize: val, maxNodeSize: val});
+	function setNodeSize(nodeSize) {
+		if (nodeSize === undefined) nodeSize = $('#node-size-slider').slider("value");
+		insp.vis.graphProperties({minNodeSize: nodeSize, maxNodeSize: nodeSize});
 	}
 
-	function changeAlpha() {
-		var val = $('#opacity-slider').slider("value");
-		insp.vis.drawingProperties({edgeAlpha: val})
+	function getNodeSize() {
+		return insp.vis.graphProperties("minNodeSize");
+	}
+
+	function setAlpha(alpha) {
+		if (alpha === undefined) alpha = $('#opacity-slider').slider("value");
+		insp.vis.drawingProperties({edgeAlpha: alpha})
+	}
+
+	function getAlpha() {
+		return insp.vis.drawingProperties("edgeAlpha");
 	}
 
 	function loadJson(file, successCallback, failCallback, alwaysCallback) {
@@ -148,10 +156,11 @@ define([
 					var val = Math.round(ui.value*100)/100;
 					$('#opacity').val(val);
 				},
-				stop: _.debounce( function (evt, ui) {
+				change: _.debounce( function (evt, ui) {
 					var val = Math.round(ui.value*100)/100;
+					if (val === getAlpha()) {return false;}
 					$('#opacity').val(val);
-					changeAlpha();
+					setAlpha(val);
 					insp.draw();
 				}, debounceInterval)
 			});
@@ -191,10 +200,11 @@ define([
 					var val = Math.round(ui.value*100)/100;
 					$('#node-size').val(val);
 				},
-				stop: _.debounce(function(evt, ui) {
+				change: _.debounce(function(evt, ui) {
 					var val = Math.round(ui.value*100)/100;
+					if (val === getNodeSize()) {return false;}
 					$('#node-size').val(val);
-					resizeNodes();
+					setNodeSize();
 					insp.draw();
 				}, debounceInterval)
 			});
@@ -213,7 +223,7 @@ define([
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-delta-f1-cutoff').val(val);
 					},
-					stop: _.debounce(function(evt, ui) {
+					change: _.debounce(function(evt, ui) {
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-delta-f1-cutoff').val(val);
 						filterClusters(attr);
@@ -233,7 +243,7 @@ define([
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-min-cluster-size').val(val);
 					},
-					stop: _.debounce(function(evt, ui) {
+					change: _.debounce(function(evt, ui) {
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-min-cluster-size').val(val);
 						filterClusters(attr);
@@ -247,8 +257,8 @@ define([
 		
 		},
 		start : function() {
-			resizeNodes();
-			changeAlpha();
+			setNodeSize();
+			setAlpha();
 			insp.draw();
 		}
 	};
