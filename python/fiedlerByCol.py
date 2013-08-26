@@ -25,7 +25,7 @@ def main():
     fo.close()
 
     fn = os.path.basename(fn)
-    fied = fiedler.fiedler(adj_list, fn=fn + str(filter_min), plot=False, n_fied=2)
+    fied = fiedler.fiedler(adj_list, fn=fn, plot=False, n_fied=2)
     
     fied["adj"] = adj_list
     fied["iByn"] = iByn
