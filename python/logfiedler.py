@@ -19,8 +19,9 @@ def main():
 
     col = int(sys.argv[2])
 
-
+    fo=open(fn)
     (adj_list, iByn, nByi) = fiedler.file_parse(fo, node2=1, val_col=col)
+    fo.close()
     for i,v in adj_list:
         adj_list[i][2]= - math.log(v[2])
     fn = os.path.basename(fn)

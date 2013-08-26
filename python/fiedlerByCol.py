@@ -11,6 +11,7 @@ of input.pwpv are node ids.
 import sys
 import math
 import json
+
 import fiedler
 
 def main():
@@ -18,8 +19,9 @@ def main():
 
     col = int(sys.argv[2])
 
-
+    fo=open(fn)
     (adj_list, iByn, nByi) = fiedler.file_parse(fo, node2=1, val_col=col)
+    fo.close()
 
     fn = os.path.basename(fn)
     fied = fiedler.fiedler(adj_list, fn=fn + str(filter_min), plot=False, n_fied=2)
