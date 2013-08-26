@@ -34,11 +34,25 @@ func check(err error) {
 	}
 }
 
+func uploadErrorHandler(fn http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		defer func() {
+			if e, ok := recover().(error); ok {
+				w.WriteHeader(200)
+				w.Header().Set("Content-Type", "application/json")
+				w.Write([]byte(`{"success": false, "error": "` + e.Error() + `"}`))
+			}
+		}()
+		fn(w, r)
+	}
+}
+
 func errorHandler(fn http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if e, ok := recover().(error); ok {
 				w.WriteHeader(200)
+				w.Header().Set("Content-Type", "application/json")
 				w.Write([]byte(`{"success": false, "error": "` + e.Error() + `"}`))
 			}
 		}()
@@ -79,7 +93,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	_, err = io.Copy(t, f)
 	uuid := Basename(fileName)
 	check(err)
-	w.Header().Set("Content-Type", "plain/text")
+	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(`{"success": true, "newUUID": "` + uuid + `"}`))
 }
 
@@ -98,7 +112,7 @@ func view(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/upload", errorHandler(upload))
+	http.HandleFunc("/upload", uploadErrorHandler(upload))
 	http.HandleFunc("/view", errorHandler(view))
 	http.Handle("/", http.FileServer(http.Dir("../dist/")))
 	http.ListenAndServe(":9400", nil)
