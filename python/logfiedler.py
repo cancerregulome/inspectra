@@ -10,6 +10,7 @@ of input.pwpv are node ids.
 """
 import sys
 import math
+import json
 
 import fiedler
 
@@ -19,11 +20,11 @@ def main():
     col = int(sys.argv[2])
 
 
-    (adj_list, iByn, nByi) = file_parse(fo, node2=1, val_col=col)
+    (adj_list, iByn, nByi) = fiedler.file_parse(fo, node2=1, val_col=col)
     for i,v in adj_list:
         adj_list[i][2]= - math.log(v[2])
     fn = os.path.basename(fn)
-    fied = fiedler(adj_list, fn=fn + str(filter_min), plot=False, n_fied=2)
+    fied = fiedler.fiedler(adj_list, fn=fn + str(filter_min), plot=False, n_fied=2)
     
     fied["adj"] = adj_list
     fied["iByn"] = iByn
