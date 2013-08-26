@@ -11,6 +11,7 @@ define([
 	var graph;
 	var lastFilterAttr = 'x';
 	var debounceInterval = 500;
+	var fileLimitMB = 12;
 
 	var __ = {
 		visConfig : {
@@ -93,7 +94,7 @@ define([
 			},
 			validation: {
 				allowedExtensions: ['json'],
-				sizeLimit: 1024 * 1024 * 2 // 2 MB = 2* 1024 * 1024 bytes
+				sizeLimit: 1024 * 1024 * fileLimitMB // 1 MB = 1024 * 1024 bytes
 			},
 			text: {
 				uploadButton: '<span><i class="icon-upload icon-white"></i></span>',
