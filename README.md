@@ -26,7 +26,7 @@ ls *.pwpv | xargs --max-procs=8 -I FILE  python fiedlerByCol.py.py FILE 4
 #intersect graph1 and graph2 for comparison
 cross_graphs.py --graph1 graph1.pwpv.0.8.json --graph2 graph2.pwpv.0.8.json --output graph1.vs.graph2.0.8.json
 
-#upload the result (can als be done via the ui)
+#upload the result (can also be done via the ui)
 uploadComp.py http://MYHOST:9400/ graph1.vs.graph2.0.8.json
 
 ```
