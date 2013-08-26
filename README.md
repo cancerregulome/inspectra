@@ -3,7 +3,10 @@ Inspectra
 
 ![Screen shot](inspectrascreenshot.png "A screen shot of the HTML5 visualization of comunities in two overlapping cancer graphs")
 
-Inspectra is a tool for spectral comparison of graph topology using pyton for analysis and HTML5 for interactive visualization.
+Inspectra is a tool for spectral comparison of graph topology using python for analysis and HTML5 for interactive visualization.
+
+It calculates fiedler vectors and orders for each graph and uses them in a 2-network layout like the one above. Eigengap clustering
+is done client side. 
 
 Python Dependencies
 ----------------
@@ -17,9 +20,14 @@ Importing Data: Quick Start
 ```bash
 #calculate fiedler vectors for corelation > .8 networks in directory
 ls *.pwpv | xargs --max-procs=8 -I FILE  python fiedler.py FILE .8
+#OR calculate for the 4th (startign from zero column) without a cutoff
+ls *.pwpv | xargs --max-procs=8 -I FILE  python fiedlerByCol.py.py FILE 4
 
 #intersect graph1 and graph2 for comparison
 cross_graphs.py --graph1 graph1.pwpv.0.8.json --graph2 graph2.pwpv.0.8.json --output graph1.vs.graph2.0.8.json
+
+#upload the result (can als be done via the ui)
+uploadComp.py http://MYHOST:9400/ graph1.vs.graph2.0.8.json
 
 ```
 
@@ -45,26 +53,38 @@ The input file should be a space deliminated file and will be parsed as:
 
 Trailing columns will be ignored.
 
-Additional import types can be supported by importing fiedler.py
+Additional import types can be supported by importing fiedler.py as fiedlerByCol.py does:
+
 ```python
-import json
 import sys
+import math
+import json
+import os
 
 import fiedler
 
+def main():
+    fn = sys.argv[1]
 
-fn = sys.argv[1]
-fo = open(fn)
-(adj_list, iByn, nByi) = file_parse(fo, node2=1, filter_col=2, filter_min=filter_min, val_col=2, blacklist=["PRDM", "CNVR"])
-fo.close()
+    col = int(sys.argv[2])
 
-fied = fiedler(adj_list, fn=fn + str(filter_min), plot=False, n_fied=1)
-fied["adj"] = adj_list
-fied["iByn"] = iByn
-fied["nByi"] = nByi
-fo = open(fn +"."+ str(filter_min) + ".json", "w")
-json.dump(fied, fo)
-fo.close()
+    fo=open(fn)
+    (adj_list, iByn, nByi) = fiedler.file_parse(fo, node2=1, val_col=col)
+    fo.close()
+
+    fn = os.path.basename(fn)
+    fied = fiedler.fiedler(adj_list, fn=fn, plot=False, n_fied=2)
+    
+    fied["adj"] = adj_list
+    fied["iByn"] = iByn
+    fied["nByi"] = nByi
+    fo = open(fn + ".json", "w")
+    json.dump(fied, fo)
+    fo.close()
+
+
+if __name__ == '__main__':
+    main()
 
 ```
 
