@@ -1,8 +1,9 @@
 """
-logfiedler.py is a drop in replacement for fiedler.py that takes the
--log() of the the edge weight. It does not support filtering.
+fiedlerByCol.py is a drop in replacement for fiedler.py that takes the
+allows you to specify what column to use for edge weight.
+
 Usage:
-python logfiedler.py input.pwpv N
+python fiedlerByCol.py input.pwpv N
 
 where N is the columb to use for edge weight and the first two columns
 of input.pwpv are node ids.
