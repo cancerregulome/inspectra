@@ -14,8 +14,10 @@ var mountFolder = function (connect, dir) {
 // 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
-    // load all grunt tasks
-    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+    // show elapsed time at the end
+    require('time-grunt')(grunt);
+     // load all grunt tasks
+    require('load-grunt-tasks')(grunt);
 
     // configurable paths
     var yeomanConfig = {
@@ -25,14 +27,18 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         yeoman: yeomanConfig,
-        watch: {
+ watch: {
+            styles: {
+                files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
+                tasks: ['copy:styles', 'autoprefixer']
+            },
             livereload: {
                 options: {
                     livereload: LIVERELOAD_PORT
                 },
                 files: [
                     '<%= yeoman.app %>/*.html',
-                    '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
+                    '.tmp/styles/{,*/}*.css',
                     '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
                     '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
@@ -76,7 +82,8 @@ module.exports = function (grunt) {
                     middleware: function (connect) {
                         return [
                             mountFolder(connect, '.tmp'),
-                            mountFolder(connect, 'test')
+                            mountFolder(connect, 'test'),
+                            (connect, yeomanConfig.app)
                         ];
                     }
                 }
@@ -126,6 +133,19 @@ module.exports = function (grunt) {
                     run: true,
                     urls: ['http://localhost:<%= connect.options.port %>/index.html']
                 }
+            }
+        },
+         autoprefixer: {
+            options: {
+                browsers: ['last 1 version']
+            },
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '.tmp/styles/',
+                    src: '{,*/}*.css',
+                    dest: '.tmp/styles/'
+                }]
             }
         },
         // not used since Uglify task does concat,
@@ -246,7 +266,7 @@ module.exports = function (grunt) {
                         '*.{ico,png,txt}',
                         '.htaccess',
                         'images/{,*/}*.{webp,gif,png,jpg}',
-                        'styles/fonts/*',
+                        'fonts/*',
             			'styles/images/{,*/}*.{webp,gif,png,jpg}',
             			'data/{,*/}*.json'
                     ]
@@ -258,15 +278,34 @@ module.exports = function (grunt) {
                         'generated/*'
                     ]
                 }]
+            },
+            styles: {
+                expand: true,
+                dot: true,
+                cwd: '<%= yeoman.app %>/styles',
+                dest: '.tmp/styles/',
+                src: '{,*/}*.css'
             }
+        },
+        modernizr: {
+            devFile: '<%= yeoman.app %>/bower_components/modernizr/modernizr.js',
+            outputFile: '<%= yeoman.dist %>/bower_components/modernizr/modernizr.js',
+            files: [
+                '<%= yeoman.dist %>/scripts/{,*/}*.js',
+                '<%= yeoman.dist %>/styles/{,*/}*.css',
+                '!<%= yeoman.dist %>/scripts/vendor/*'
+            ],
+            uglify: true
         },
         concurrent: {
             server: [
-                
+                'copy:styles'
             ],
             test: [
+                'copy:styles'
             ],
             dist: [
+                'copy:styles',
                 'imagemin',
                 'svgmin',
                 'htmlmin'
@@ -290,6 +329,7 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'concurrent:server',
+            'autoprefixer',
             'configureProxies',
             'connect:livereload',
             'open',
@@ -300,6 +340,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:server',
         'concurrent:test',
+                'autoprefixer',
         'connect:test',
         'mocha'
     ]);
@@ -308,10 +349,12 @@ module.exports = function (grunt) {
         'clean:dist',
         'useminPrepare',
         'concurrent:dist',
+        'autoprefixer',
         'requirejs',
         'concat',
         'cssmin',
         'uglify',
+        'modernizer',
         'copy:dist',
         'rev',
         'usemin'

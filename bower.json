@@ -13,7 +13,8 @@
     "d3": "*",
     "crossfilter": "~1.2.0",
     "rbush": "git@github.com:mourner/rbush.git#~1.2.1",
-    "jqueryuibootstrap": "*"
+    "jqueryuibootstrap": "*",
+    "mediator-js": "~0.9.5"
   },
   "devDependencies": {}
 }
