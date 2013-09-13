@@ -1,8 +1,39 @@
 body {
-    background: #fafafa;
+    background: #000;
+    height: 100%;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
 }
+
+
+/* menu transition */
+
+.row div {
+    -webkit-transition: width 0.3s ease, margin 0.3s ease;
+    -moz-transition: width 0.3s ease, margin 0.3s ease;
+    -o-transition: width 0.3s ease, margin 0.3s ease;
+    transition: width 0.3s ease, margin 0.3s ease;
+}
+
+#sideMenu {
+  height: 700px;
+  background-color: #000;
+  color: #fff;
+  top: 20px;
+}
+
+#sideMenu .panel, #sideMenu .panel-body { 
+  height: 100%;
+  background-color: #000;
+  border-color: #000;
+}
+
+#sideMenu .panel-body {
+  overflow: hidden;
+
+}
+
+
 #main_container { 
   margin-top: 60px;
 }
