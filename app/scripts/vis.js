@@ -22,7 +22,7 @@ define([
 	var __ = {};
 
 function subscribeListeners() {
-	mediator.subscribe('application:controller:draw')
+	mediator.subscribe('application:controller:DrawNetwork')
 }
 
 function filterClusters(filterObj) {

@@ -13,7 +13,6 @@ function initializeMenu( deferred ){
 }
 
 function reloadDatasetList(datasets) {
-
 		populateDataSelect(datasets, '#data', function() {
 				$('#dataset option:first-child').prop('selected', true);
 				mediator.publsh('application:menu:DatasetListPopulated');
@@ -21,7 +20,7 @@ function reloadDatasetList(datasets) {
 }
 
 function subscribeListeners() {
-	mediator.subscribe('application:data:DatasetListLoaded', reloadDatasetList );
+	mediator.subscribe('application:controller:LoadDatasetList', reloadDatasetList );
 		
 }
 

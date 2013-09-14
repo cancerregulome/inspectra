@@ -2,12 +2,12 @@
 define([
 	'jquery'
 	, 'underscore'
-
 	, 'mediator-js'
+	, 'controller'
 	, 'menu'
 	, 'data'
 	, 'vis'
-], function($, _, mediator, menu, data, vis) {
+], function($, _, mediator, controller, menu, data, vis) {
 	'use strict';
 
 	var insp;
@@ -20,7 +20,6 @@ define([
 
 	function initializeMediator() {
 		mediator.subscribe('application', applicationEventHandler);
-		mediator.subscribe('application:menu:loadData', loadDataEventHandler);
 	}
 
 	function applicationEventHandler() {
@@ -77,13 +76,7 @@ define([
 
 		},
 		start: function() {
-
-			var state = menu.state();
-			executeLoadData(state);
-
-			setNodeSize();
-			setAlpha();
-			insp.draw();
+			controller.start();
 		}
 	};
 	return Application;

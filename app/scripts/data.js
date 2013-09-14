@@ -22,21 +22,13 @@ function loadDatasetList() {
 
 function subscribeListeners() {
 	mediator.subscribe('application:data:DataUploadComplete', loadDatasetList);
+	mediator.subscribe('application:controller:LoadDatasetList', loadDatasetList);
 }
 
-	function loadJson(file, successCallback, failCallback, alwaysCallback) {
-		
+var Data = {
+	initialize : function( ) {
+		subscribeListeners();
 	}
-
-
-	var Data = {
-		initialize : function( ) {
-			subscribeListeners();
-			loadDatasetlist();
-		},
-		request : function(val) {
-			return loadData(val);
-		}
-	};
+};
 	return Data;
 });
