@@ -48,29 +48,13 @@ define([
 		});
 	}
 
-	function getNodeSize() {
-		return insp.vis.graphProperties("minNodeSize");
-	}
-
-	function setAlpha(alpha) {
-		if (alpha === undefined) alpha = $('#opacity-slider').slider("value");
-		insp.vis.drawingProperties({
-			edgeAlpha: alpha
-		})
-	}
-
-	function getAlpha() {
-		return insp.vis.drawingProperties("edgeAlpha");
-	}
-
-
-
 	var Application = {
-		initialize: function(successCallback) {
+		initialize: function() {
 			setup();
-			var deferred = $.when(data.initialize)
-				.then(menu.initialize)
-				.done(vis.initialize);
+			var deferred = $.when(controller.initialize())
+				.then(data.initialize())
+				.then(menu.initialize())
+				.done(vis.initialize());
 
 			return deferred.promise();
 

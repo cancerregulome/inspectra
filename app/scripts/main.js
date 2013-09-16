@@ -37,8 +37,7 @@ require.config({
 
 require(['app', 'underscore', 'jquery', 'jqueryui', 'bootstrap', 'rbush', 'fineuploader'], function (app, _, $) {
     'use strict';
-    app.initialize(function(){
-        app.start();
-    });
+    $.when(app.initialize())
+    .done(app.start());
     
 });

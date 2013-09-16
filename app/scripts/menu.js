@@ -3,6 +3,10 @@ define([
 ], function(mediator) {
 'use strict'
 
+var __ = {
+	datasetList : '#dataset'
+}
+
 var debounceInterval = 500,
 	fileLimitMB = 12;
 
@@ -13,15 +17,14 @@ function initializeMenu( deferred ){
 }
 
 function reloadDatasetList(datasets) {
-		populateDataSelect(datasets, '#data', function() {
-				$('#dataset option:first-child').prop('selected', true);
-				mediator.publsh('application:menu:DatasetListPopulated');
-			});
+		populateDataSelect(datasets, $(__.datasetList));
+		$('#dataset option:first-child').prop('selected', true);
+		var selectedDataset = $('#dataset option:first-child').val();
+		mediator.publish('application:menu:DatasetListPopulated', selectedDataset);
 }
 
 function subscribeListeners() {
-	mediator.subscribe('application:controller:LoadDatasetList', reloadDatasetList );
-		
+	mediator.subscribe('application:controller:PopulateDatasetListSelect', reloadDatasetList );
 }
 
 function setupSideMenu() {
@@ -48,38 +51,33 @@ function setupSideMenu() {
 				},
 				change: _.debounce( function (evt, ui) {
 					var val = Math.round(ui.value*100)/100;
-					if (val === getAlpha()) {return false;}
 					$('#opacity').val(val);
-					setAlpha(val);
-					insp.draw();
+					mediator.publish('application.menu:DisplayPanelChanged', Menu.state());
 				}, debounceInterval)
 			});
-			$('#dataset').on('change', function(evt, ui) {
-				loadJson($(this).val(), function() { insp.draw() } );
+			$(__.datasetList).on('change', function(evt, ui) {
+					mediator.publish('application:menu:DatasetSelected', $(this).val());
 			});
 
 			$( "#opacity" ).val( $( "#opacity-slider" ).slider( "value" ) );
 			$('#compositing').on('change', function(evt, ui) {
-				insp.vis.drawingProperties({edgeCompositeOperation : $(this).val()});
-				insp.draw();
+				mediator.publish('application.menu:DisplayPanelChanged', menu.state());
 			});
 
 			['1','2'].forEach ( function (graph_num){
 				$('#graph_' + graph_num + '_color').on('change', function(evt, ui) {
-					insp.edgeColor(graph_num, $(this).val());
-					insp.draw();
+					mediator.publish('application.menu:DisplayPanelChanged', menu.state());
 				});
 			});
 
 			$('#edge-checkbox').on('change', function(evt)  {
 				__.visConfig.drawEdges = $(this).is(':checked') ? 1 : 0;
-				insp.vis.configProperties(__.visConfig);
-				insp.draw();
+				mediator.publish('application.menu:DisplayPanelChanged', menu.state());
 			});
 
-			$('#background-color-checkbox').on('change', function(evt)  {
-				insp.$el.css({background: $(this).is(':checked') ? '#000' : '#FFF' });
-			});
+			// $('#background-color-checkbox').on('change', function(evt)  {
+			// 	insp.$el.css({background: $(this).is(':checked') ? '#000' : '#FFF' });
+			// });
 
 			$('#node-size-slider').empty().slider({
 				min: 0,
@@ -96,8 +94,7 @@ function setupSideMenu() {
 					var val = Math.round(ui.value*100)/100;
 					if (val === getNodeSize()) {return false;}
 					$('#node-size').val(val);
-					setNodeSize();
-					renderOnlyNodes();
+					mediator.publish('application.menu:DisplayPanelChanged', menu.state());
 				}, debounceInterval)
 			});
 			$( "#node-size" ).val( $( "#node-size-slider" ).slider( "value" ) );
@@ -117,8 +114,7 @@ function setupSideMenu() {
 					change: _.debounce(function(evt, ui) {
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-delta-f1-cutoff').val(val);
-						filterClusters(attr);
-						renderOnlyNodes();
+						mediator.publish('application:menu:ClusterPanelChanged', menu.state());
 					}, debounceInterval )
 				});
 				$('#' + attr + '-delta-f1-cutoff').val( $('#' + attr + '-delta-f1-cutoff-slider').slider("value") );
@@ -137,8 +133,7 @@ function setupSideMenu() {
 					change: _.debounce(function(evt, ui) {
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-min-cluster-size').val(val);
-						filterClusters(attr);
-						renderOnlyNodes();
+						mediator.publish('application:menu:ClusterPanelChanged', menu.state());
 					}, debounceInterval)
 				});
 				$('#' + attr + '-min-cluster-size').val( $('#' + attr + '-min-cluster-size-slider').slider("value") );
@@ -186,17 +181,13 @@ function getSelectedValue(elementId) {
 		});
 	}
 
-		function populateDataSelect(datasets, $el, callback) {
-				if (datsets && datasets.length) {
+		function populateDataSelect(datasets, $el) {
+				if (datasets && datasets.length) {
 					$el.empty();
 					datasets.forEach(function(g) {
 						$el.append($('<option value="' + g.label + '">').html(g.label));
 					});
-					if (typeof callback === 'function') {
-						callback();
-					}
 				}
-
 			}
 
 	var Menu = {
@@ -207,9 +198,24 @@ function getSelectedValue(elementId) {
 		},
 		state: function ( ) {
 			return { 
-				target : getSelectedValue('inputTarget'),
-			 	model : getSelectedValue('inputModel'),
-			 	test : getSelectedValue('inputTest')
+				drawingProperties : {
+					edgeCompositeOperation: $('#compositing').val(),
+					edgeAlpha : $('#opacity').val(),
+					drawEdges: $('#edge-checkbox').is(':checked') ? 1 : 0
+				},
+			 	clusterProperties : {
+			 		x: {
+			 			delta: $('#x-delta-f1-cutoff').val(),
+			 			minSize: $('#x-min-cluster-size').val()
+			 		},
+			 		y: {
+			 			delta: $('#y-delta-f1-cutoff').val(),
+			 			minSize: $('#y-min-cluster-size').val()
+			 		}
+			 	},
+			 	graphProperties : {
+			 		nodeSize : $('#node-size').val()
+			 	}
 			};
 		}
 
