@@ -76,13 +76,16 @@
                                         <div class="form-group">
                                             <h4>X Axis</h4>
                                             <label for="x-delta-f1-cutoff" class="col-lg-2 control-label">Delta:</label>
+                                            <div class="col-lg-offset-1 col-lg-7">
                                             <input type="text" class="form-control" id="xDeltaF1Cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                            <label for="x-min-cluster-size">
-                                                Size:
-                                                <div id="x-min-cluster-size-slider" style="width:70px; display:inline-block; margin-left:7px; margin-right:10px;"></div>
-                                                <input type="text" class="input-mini" id="x-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                            </label>
                                         </div>
+                                            <label for="x-min-cluster-size" class="col-lg-2 control-label">
+                                                Size:
+                                            </label>
+                                                <div class="col-lg-offset-1 col-lg-7">
+                                                <input type="text" class="input-mini" id="x-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                            </div
+>                                        </div>
                                         <h4>Y Axis</h4>
                                         <label for="y-delta-f1-cutoff">
                                             Delta:
@@ -141,10 +144,10 @@
                                                 <option value="rgb(255,0,255)">purple</option>
                                             </select>
                                         </label>
-                                        <label class="checkbox">
+                                        <!-- <label class="checkbox">
                                             <input id="background-color-checkbox" type="checkbox" checked />
                                             Dark Background
-                                        </label>
+                                        </label> -->
                                     </div>
                                 </form>
                             </div>
