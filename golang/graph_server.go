@@ -112,8 +112,11 @@ func view(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	log.Println("starting graph server...")
 	http.HandleFunc("/upload", uploadErrorHandler(upload))
 	http.HandleFunc("/view", errorHandler(view))
 	http.Handle("/", http.FileServer(http.Dir("../dist/")))
-	http.ListenAndServe(":9400", nil)
+	if err := http.ListenAndServe(":9401", nil); err != nil {
+		log.Fatalln(err)
+	}
 }
