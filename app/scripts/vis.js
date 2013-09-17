@@ -24,8 +24,13 @@ define([
 		graphProperties : {
 			nodeSize : 0.5,
 		},
-		gap_fn : function(node1, node2) {
-			return Math.abs(node2[graph].f1 - node1[graph].f1);
+		clusterProperties: {
+			x: {}, y: {}
+		},
+		gap_fn : function(attr, cutoff) {
+			return function(node1, node2) {
+					return Math.abs(node2[attr].f1 - node1[attr].f1) < cutoff;
+					};
 		},
 		graphContainer: '#main_graph'
 	};
@@ -46,15 +51,17 @@ function populateVis() {
 }
 
 function filterClusters(filterObj) {
+	_.extend(__.clusterProperties, filterObj.clusterProperties);
 		
 	['x','y'].forEach( function(attr) {
 		var cutoff = __.clusterProperties[attr].delta,
 			graph = attr === 'x' ? 'graph1' : 'graph2',
-			minSize = filterObj.graphProperties[attr].minSize;
-			graphModel.assignClustersAtCutoff(__.gap_fn, minSize, attr);
+			minSize = __.clusterProperties[attr].minSize;
+			insp.graph.assignClustersAtCutoff(__.gap_fn(graph, cutoff), minSize, attr);
 	});
 		insp.populate(insp.graph);
 		insp.drawClusters();
+		renderOnlyNodes();
 	}
 
 function renderOnlyNodes() {
@@ -62,7 +69,7 @@ function renderOnlyNodes() {
 			drawEdges: -1
 		});
 		insp.draw();
-		insp.vis.configProperties(__.drawRules);
+		insp.vis.configProperties(__.drawProperties);
 	}
 
 function draw() {
@@ -80,6 +87,14 @@ function drawInspectra(data) {
 			};
 
 function applyDrawParameters(paramObj) {
+
+	__.drawProperties = paramObj;
+	insp.vis.graphProperties({
+		minNodeSize: paramObj.graphProperties.nodeSize,
+		maxNodeSize: paramObj.graphProperties.nodeSize
+	});
+	insp.edgeColor('1', paramObj.drawingProperties.graph1Color);
+	insp.edgeColor('2', paramObj.drawingProperties.graph2Color);
 	insp.vis.configProperties(paramObj.drawingProperties);
 	insp.vis.drawingProperties(paramObj.drawingProperties);
 	draw();

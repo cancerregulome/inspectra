@@ -16,15 +16,15 @@ function initializeMenu( deferred ){
 	deferred.resolve();
 }
 
+function subscribeListeners() {
+	mediator.subscribe('application:controller:PopulateDatasetListSelect', reloadDatasetList );
+}
+
 function reloadDatasetList(datasets) {
 		populateDataSelect(datasets, $(__.datasetList));
 		$('#dataset option:first-child').prop('selected', true);
 		var selectedDataset = $('#dataset option:first-child').val();
 		mediator.publish('application:menu:DatasetListPopulated', selectedDataset);
-}
-
-function subscribeListeners() {
-	mediator.subscribe('application:controller:PopulateDatasetListSelect', reloadDatasetList );
 }
 
 function setupSideMenu() {
@@ -41,7 +41,7 @@ function setupSideMenu() {
 	$('#opacity-slider').empty().slider({
 				min: 0,
 				max: 1,
-				value: 0.2,
+				value: 0.05,
 				range: 'min',
 				orientation: 'horizontal',
 				step: 0.05,
@@ -52,7 +52,7 @@ function setupSideMenu() {
 				change: _.debounce( function (evt, ui) {
 					var val = Math.round(ui.value*100)/100;
 					$('#opacity').val(val);
-					mediator.publish('application.menu:DisplayPanelChanged', Menu.state());
+					mediator.publish('application:menu:DisplayPanelChanged', Menu.state());
 				}, debounceInterval)
 			});
 			$(__.datasetList).on('change', function(evt, ui) {
@@ -61,23 +61,26 @@ function setupSideMenu() {
 
 			$( "#opacity" ).val( $( "#opacity-slider" ).slider( "value" ) );
 			$('#compositing').on('change', function(evt, ui) {
-				mediator.publish('application.menu:DisplayPanelChanged', menu.state());
+				mediator.publish('application:menu:DisplayPanelChanged', Menu.state());
 			});
 
 			['1','2'].forEach ( function (graph_num){
 				$('#graph_' + graph_num + '_color').on('change', function(evt, ui) {
-					mediator.publish('application.menu:DisplayPanelChanged', menu.state());
+					mediator.publish('application:menu:DisplayPanelChanged', Menu.state());
 				});
 			});
 
 			$('#edge-checkbox').on('change', function(evt)  {
-				__.visConfig.drawEdges = $(this).is(':checked') ? 1 : 0;
-				mediator.publish('application.menu:DisplayPanelChanged', menu.state());
+				mediator.publish('application:menu:DisplayPanelChanged', Menu.state());
 			});
 
-			// $('#background-color-checkbox').on('change', function(evt)  {
-			// 	insp.$el.css({background: $(this).is(':checked') ? '#000' : '#FFF' });
-			// });
+			$('#graph-1-color').on('change', function(evt)  {
+				mediator.publish('application:menu:DisplayPanelChanged', Menu.state());
+			});
+			
+			$('#graph-2-color').on('change', function(evt)  {
+				mediator.publish('application:menu:DisplayPanelChanged', Menu.state());
+			});
 
 			$('#node-size-slider').empty().slider({
 				min: 0,
@@ -92,9 +95,8 @@ function setupSideMenu() {
 				},
 				change: _.debounce(function(evt, ui) {
 					var val = Math.round(ui.value*100)/100;
-					if (val === getNodeSize()) {return false;}
 					$('#node-size').val(val);
-					mediator.publish('application.menu:DisplayPanelChanged', menu.state());
+					mediator.publish('application:menu:DisplayPanelChanged', Menu.state());
 				}, debounceInterval)
 			});
 			$( "#node-size" ).val( $( "#node-size-slider" ).slider( "value" ) );
@@ -114,7 +116,7 @@ function setupSideMenu() {
 					change: _.debounce(function(evt, ui) {
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-delta-f1-cutoff').val(val);
-						mediator.publish('application:menu:ClusterPanelChanged', menu.state());
+						mediator.publish('application:menu:ClusterPanelChanged', Menu.state());
 					}, debounceInterval )
 				});
 				$('#' + attr + '-delta-f1-cutoff').val( $('#' + attr + '-delta-f1-cutoff-slider').slider("value") );
@@ -133,7 +135,7 @@ function setupSideMenu() {
 					change: _.debounce(function(evt, ui) {
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-min-cluster-size').val(val);
-						mediator.publish('application:menu:ClusterPanelChanged', menu.state());
+						mediator.publish('application:menu:ClusterPanelChanged', Menu.state());
 					}, debounceInterval)
 				});
 				$('#' + attr + '-min-cluster-size').val( $('#' + attr + '-min-cluster-size-slider').slider("value") );
@@ -199,22 +201,24 @@ function getSelectedValue(elementId) {
 		state: function ( ) {
 			return { 
 				drawingProperties : {
-					edgeCompositeOperation: $('#compositing').val(),
-					edgeAlpha : $('#opacity').val(),
-					drawEdges: $('#edge-checkbox').is(':checked') ? 1 : 0
+					edgeCompositeOperation: $('#compositing :selected').val(),
+					edgeAlpha : $( "#opacity-slider" ).slider( "value" ),
+					drawEdges: $('#edge-checkbox').is(':checked') ? 1 : 0,
+					graph1Color: $('#graph_1_color :selected').val(),
+					graph2Color: $('#graph_2_color :selected').val()
 				},
 			 	clusterProperties : {
 			 		x: {
-			 			delta: $('#x-delta-f1-cutoff').val(),
-			 			minSize: $('#x-min-cluster-size').val()
+			 			delta: $('#x-delta-f1-cutoff-slider').slider('value'),
+			 			minSize: $('#x-min-cluster-size-slider').slider('value')
 			 		},
 			 		y: {
-			 			delta: $('#y-delta-f1-cutoff').val(),
-			 			minSize: $('#y-min-cluster-size').val()
+			 			delta: $('#y-delta-f1-cutoff-slider').slider('value'),
+			 			minSize: $('#y-min-cluster-size-slider').slider('value')
 			 		}
 			 	},
 			 	graphProperties : {
-			 		nodeSize : $('#node-size').val()
+			 		nodeSize :  $( "#node-size-slider" ).slider( "value" )
 			 	}
 			};
 		}

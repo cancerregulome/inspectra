@@ -38,8 +38,8 @@ body {
 }
 
 #main_graph {
-    min-height: 500px;
-    border : 1px solid black;
+    height:400px;
+    width: 600px;
     background-color: #000;
 }
 

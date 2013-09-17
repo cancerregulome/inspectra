@@ -16,8 +16,8 @@ return function build(selector) {
 	});
 
 	var edgeColors = {
-		'1': 'rgb(0,255,0)',
-		'2': 'rgb(255,0,0)'
+		'1': 'rgb(255,255,0)',
+		'2': 'rgb(255,0,255)'
 	};
 
 	var $sigmaEl = $('<div>').addClass('sigma')
@@ -105,7 +105,7 @@ return function build(selector) {
 	};
 
 	inspectra.draw = function() {
-		var args = arguments
+		var args = arguments;
 		this.vis.draw.apply(this,args);
 		return this;
 	};

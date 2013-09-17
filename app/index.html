@@ -73,47 +73,63 @@
                                     <form class="form-horizontal" role="form">
                                         <select id="dataset" class="input-medium"></select>
                                         <span id="uploader"></span>
-                                        <div class="form-group">
                                             <h4>X Axis</h4>
-                                            <label for="x-delta-f1-cutoff" class="col-lg-2 control-label">Delta:</label>
-                                            <div class="col-lg-offset-1 col-lg-7">
-                                            <input type="text" class="form-control" id="xDeltaF1Cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                        </div>
-                                            <label for="x-min-cluster-size" class="col-lg-2 control-label">
-                                                Size:
+                                            <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                            <label for="x-delta-f1-cutoff-slider" class="control-label col-lg-2">
+                                                Delta:
                                             </label>
-                                                <div class="col-lg-offset-1 col-lg-7">
-                                                <input type="text" class="input-mini" id="x-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                            </div
->                                        </div>
+                                                <div class="col-lg-offset-1 col-lg-5" id="x-delta-f1-cutoff-slider"></div>
+                                                <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="x-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                            </div>
+                                        </form>
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                            <label for="x-min-cluster-size" class="control-label col-lg-2">Size:</label>
+                                                <div id="x-min-cluster-size-slider" class="col-lg-offset-1 col-lg-5"></div>
+                                                <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="x-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                            </div>
+                                            </form>
                                         <h4>Y Axis</h4>
-                                        <label for="y-delta-f1-cutoff">
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                        <label for="y-delta-f1-cutoff" class="control-label col-lg-2">
                                             Delta:
-                                            <div id="y-delta-f1-cutoff-slider" style="width:70px; display:inline-block; margin-left:7px; margin-left:7px; margin-right:10px;"></div>
-                                            <input type="text" class="input-mini" id="y-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                        </label>
-
-                                        <label for="y-min-cluster-size">
-                                            Size:
-                                            <div id="y-min-cluster-size-slider" style="width:70px; display:inline-block; margin-left:7px; margin-right:10px;"></div>
-                                            <input type="text" class="input-mini" id="y-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                        </label>
+                                            </label>
+                                            <div id="y-delta-f1-cutoff-slider" class="col-lg-offset-1 col-lg-5"></div>
+                                            <input type="text" class="input-sm col-lg-offset-1 col-lg-3"  id="y-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                        
+                                    </div>
+                                    </form>
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                        <label for="y-min-cluster-size"  class="control-label col-lg-2">
+                                            Size:</label>
+                                            <div id="y-min-cluster-size-slider" class="col-lg-offset-1 col-lg-5"></div>
+                                            <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="y-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                        </div>
+                                        </form>
                                         <h4>Nodes</h4>
-                                        <label for="node-size">
-                                            Size:
-                                            <div id="node-size-slider" style="width:70px;display:inline-block; margin-left:7px; margin-right:10px;"></div>
-                                            <input type="text" class="input-mini" id="node-size" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                        </label>
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                        <label for="node-size" class="control-label col-lg-2">Size:</label>
+                                            <div id="node-size-slider" class="col-lg-offset-1 col-lg-5"></div>
+                                            <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="node-size" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                        </div>
+                                    </form>
+                                        
                                         <h4>Edges</h4>
                                         <label class="checkbox">
                                             <input id="edge-checkbox" type="checkbox" checked />
                                             Display
                                         </label>
-                                        <label for="opacity">
-                                            Opacity:
-                                            <div id="opacity-slider" style="width:70px;display:inline-block; margin-left:7px; margin-right:10px;"></div>
-                                            <input type="text" class="input-mini" id="opacity" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                        </label>
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                        <label for="opacity" class="control-label col-lg-2">Opacity:</label>
+                                            <div id="opacity-slider" class="col-lg-offset-1 col-lg-5"></div>
+                                            <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="opacity" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                        </div>
+                                    </form>
                                         <label for="compositing">
                                             Composite:
                                             <select id="compositing" class="input-small">
@@ -128,9 +144,9 @@
                                             Graph 1:
                                             <select id="graph_1_color" class="input-small">
                                                 <option value="rgb(255,0,0)">red</option>
-                                                <option value="rgb(0,255,0)" selected>green</option>
+                                                <option value="rgb(0,255,0)">green</option>
                                                 <option value="rgb(0,0,255)">blue</option>
-                                                <option value="rgb(255,255,0)">yellow</option>
+                                                <option value="rgb(255,255,0)" selected>yellow</option>
                                                 <option value="rgb(255,0,255)">purple</option>
                                             </select>
                                         </label>
@@ -141,7 +157,7 @@
                                                 <option value="rgb(0,255,0)">green</option>
                                                 <option value="rgb(0,0,255)">blue</option>
                                                 <option value="rgb(255,255,0)">yellow</option>
-                                                <option value="rgb(255,0,255)">purple</option>
+                                                <option value="rgb(255,0,255)" selected>purple</option>
                                             </select>
                                         </label>
                                         <!-- <label class="checkbox">
