@@ -3,6 +3,7 @@ define([
 
 var __ = {
 	container: 'body',
+	dimKey : '',
 	data : [],
 	width: 300,
 	height:200,
@@ -17,7 +18,8 @@ var __ = {
 		right: 5,
 		bottom: 2,
 		left: 2
-	}
+	},
+	model : null
 };
 
  var events = d3.dispatch.apply(this,["select"].concat(d3.keys(__))),
@@ -26,7 +28,7 @@ var __ = {
       plotWidth = function() { return outerWidth() - padding.right - padding.left},
       plotHeight = function() { return outerHeight() - padding.top - padding.bottom },
       displayWidth = function() { return plotWidth() - 20;},
-      displayHeight = function() { return plotHeight() - 20;},
+      displayHeight = function() { return plotHeight() - 20;};
 
 function initializeParameters(config) {
 	_.extend( __, config);
@@ -40,6 +42,8 @@ function initializeParameters(config) {
 //]
 
 function initializeData() {
+
+	__.data = __.model.addDimension(__.dimKey).binDimension(__.dimKey, 0.001);
 
 	__.xScale = d3.scale.linear()
     .domain([0, 1])
@@ -101,7 +105,7 @@ function drawHistogram() {
 function drawHoverIndicator(position) {
 	__.svg.append('rect')
 		.attr('class','hoverIndication')
-		.attr('transform','translate(' + position ')');
+		.attr('transform','translate(' + position + ')');
 }
 
 function mousemove_fn( bar ) {

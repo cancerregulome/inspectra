@@ -18,8 +18,7 @@ define([
 		},
 		drawingProperties:{
 			edgeCompositeOperation: 'lighten',
-			edgeAlpha: 0.05,
-			drawEdges: true,
+			edgeAlpha: 0.05
 		},
 		graphProperties : {
 			nodeSize : 0.5,
@@ -69,7 +68,7 @@ function renderOnlyNodes() {
 			drawEdges: -1
 		});
 		insp.draw();
-		insp.vis.configProperties(__.drawProperties);
+		insp.vis.configProperties(__.drawRules);
 	}
 
 function draw() {
@@ -95,7 +94,7 @@ function applyDrawParameters(paramObj) {
 	});
 	insp.edgeColor('1', paramObj.drawingProperties.graph1Color);
 	insp.edgeColor('2', paramObj.drawingProperties.graph2Color);
-	insp.vis.configProperties(paramObj.drawingProperties);
+	insp.vis.configProperties(__.drawRules);
 	insp.vis.drawingProperties(paramObj.drawingProperties);
 	draw();
 }
