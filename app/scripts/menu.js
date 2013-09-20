@@ -1,5 +1,6 @@
 define([
 	'mediator-js'
+	,'vis/histogram'
 ], function(mediator) {
 'use strict'
 
