@@ -82,16 +82,13 @@
                                                 <div class="col-lg-offset-1 col-lg-5" id="x-delta-f1-cutoff-slider"></div>
                                                 <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="x-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />
                                             </div>
-                                        </form>
-                                        <form class="form-horizontal" role="form">
                                             <div class="form-group">
                                             <label for="x-min-cluster-size" class="control-label col-lg-2">Size:</label>
                                                 <div id="x-min-cluster-size-slider" class="col-lg-offset-1 col-lg-5"></div>
                                                 <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="x-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
                                             </div>
-                                            </form>
                                         <h4>Y Axis</h4>
-                                        <form class="form-horizontal" role="form">
+                                        
                                             <div class="form-group">
                                         <label for="y-delta-f1-cutoff" class="control-label col-lg-2">
                                             Delta:
@@ -100,36 +97,30 @@
                                             <input type="text" class="input-sm col-lg-offset-1 col-lg-3"  id="y-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />
                                         
                                     </div>
-                                    </form>
-                                    <form class="form-horizontal" role="form">
                                         <div class="form-group">
-                                        <label for="y-min-cluster-size"  class="control-label col-lg-2">
+                                        <label for="y-min-cluster-size-slider"  class="control-label col-lg-2">
                                             Size:</label>
                                             <div id="y-min-cluster-size-slider" class="col-lg-offset-1 col-lg-5"></div>
                                             <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="y-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
                                         </div>
-                                        </form>
                                         <h4>Nodes</h4>
-                                        <form class="form-horizontal" role="form">
-                                            <div class="form-group">
-                                        <label for="node-size" class="control-label col-lg-2">Size:</label>
-                                            <div id="node-size-slider" class="col-lg-offset-1 col-lg-5"></div>
-                                            <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="node-size" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                        </div>
-                                    </form>
                                         
-                                        <h4>Edges</h4>
-                                        <label class="checkbox">
-                                            <input id="edge-checkbox" type="checkbox" checked />
-                                            Display
-                                        </label>
-                                        <form class="form-horizontal" role="form">
                                             <div class="form-group">
-                                        <label for="opacity" class="control-label col-lg-2">Opacity:</label>
+                                                <label for="node-size" class="control-label col-lg-2">Size:</label>
+                                                <div id="node-size-slider" class="col-lg-offset-1 col-lg-5"></div>
+                                                <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="node-size" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                            </div>
+                                        <h4>Edges</h4>
+                                        <div class="checkbox">
+                                        <label for="edge-checkbox" type="checkbox" class="control-label col-lg-2">
+                                            <input id="edge-checkbox" type="checkbox" checked >Display</label>
+                                        </div><br>
+                                        <div class="form-group">
+                                        <label for="opacity-slider" class="control-label col-lg-2">Opacity:</label>
                                             <div id="opacity-slider" class="col-lg-offset-1 col-lg-5"></div>
                                             <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="opacity" style="border: 0; color: #f6931f; font-weight: bold;" />
                                         </div>
-                                    </form>
+                                    
                                         <label for="compositing">
                                             Composite:
                                             <select id="compositing" class="input-small">
@@ -160,6 +151,7 @@
                                                 <option value="rgb(255,0,255)" selected>purple</option>
                                             </select>
                                         </label>
+                                        </form>
                                         <!-- <label class="checkbox">
                                             <input id="background-color-checkbox" type="checkbox" checked />
                                             Dark Background
