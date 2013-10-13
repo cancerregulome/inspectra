@@ -49,7 +49,8 @@ return function build(selector) {
 		maxEdgeSize: 4,
 		sideMargin: 10
 	}).mouseProperties({
-		maxRatio: 128
+		maxRatio: 128,
+		zoomMultiply: 1.2
 	}).bind('stopbrush', function(e) {
 		var rectangle = e.content;
 		var boundaries = [
@@ -151,7 +152,7 @@ return function build(selector) {
 			.style('stroke-opacity','0.7')
 			.on('mouseover', function() {
 				d3.select(this)
-					.style('stroke-opacity','0.9');
+					.style('stroke-opacity','1.0');
 			})
 			.on('mouseout', function() {
 				d3.select(this)

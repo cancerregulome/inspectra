@@ -83,3 +83,14 @@ background-color: #F2DEDE;
 #uploader .alert-error .qq-upload-failed-text {
 display: inline;
 }
+
+/* histogram widget */
+.histogramSelector .bar rect {
+  fill: steelblue;
+  shape-rendering: crispEdges;
+}
+
+.histogramSelector .hoverIndication rect {
+  fill: red;
+  shape-rendering: crispEdges;
+}
