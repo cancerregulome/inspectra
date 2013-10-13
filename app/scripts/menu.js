@@ -110,11 +110,11 @@ function setupSideMenu() {
 			['x','y'].forEach( function ( attr) { 
 				$('#' + attr + '-delta-f1-cutoff-slider').empty().slider({
 					min: 0.0001,
-					max: 0.02,
+					max: 0.0006,
 					value: 0.0001,
 					range: 'min',
 					orientation: 'horizontal',
-					step: 0.0001,
+					step: 0.00001,
 					slide: function(evt, ui) {
 						var val = Math.round(ui.value*10000)/10000;
 						$('#' + attr + '-delta-f1-cutoff').val(val);
@@ -129,8 +129,8 @@ function setupSideMenu() {
 
 				$('#' + attr + '-min-cluster-size-slider').empty().slider({
 					min: 1,
-					max: 40,
-					value: 20,
+					max: 60,
+					value: 30,
 					range: 'min',
 					orientation: 'horizontal',
 					step: 1,
