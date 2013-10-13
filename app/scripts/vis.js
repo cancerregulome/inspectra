@@ -89,6 +89,7 @@ function drawInspectra(data) {
 function applyDrawParameters(paramObj) {
 
 	__.drawProperties = paramObj;
+	__.drawRules.drawEdges = paramObj.drawRules.drawEdges;
 	insp.vis.graphProperties({
 		minNodeSize: paramObj.graphProperties.nodeSize,
 		maxNodeSize: paramObj.graphProperties.nodeSize

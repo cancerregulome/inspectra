@@ -214,6 +214,7 @@ function getSelectedValue(elementId) {
 				drawingProperties : {
 					edgeCompositeOperation: $('#compositing :selected').val(),
 					edgeAlpha : $( "#opacity-slider" ).slider( "value" ),
+					drawEdges: $('#edge-checkbox').is(':checked') ? 1 : 0,
 					graph1Color: $('#graph_1_color :selected').val(),
 					graph2Color: $('#graph_2_color :selected').val()
 				},
