@@ -22,6 +22,13 @@ body {
   top: 20px;
 }
 
+#sideMenu input{
+  background-color:#000;
+  color:#fff;
+  border: 0; 
+  font-weight: bold;
+}
+
 #sideMenu .panel, #sideMenu .panel-body { 
   height: 100%;
   background-color: #000;
@@ -38,8 +45,8 @@ body {
 }
 
 #main_graph {
-    height:400px;
-    width: 600px;
+    height:800px;
+    width: 900px;
     background-color: #000;
 }
 

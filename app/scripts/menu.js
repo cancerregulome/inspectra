@@ -18,6 +18,11 @@ function initializeMenu( deferred ){
 
 function subscribeListeners() {
 	mediator.subscribe('application:controller:PopulateDatasetListSelect', reloadDatasetList );
+	mediator.subscribe('application:controller:PushFilterEvent', publishFilterEvent );
+}
+
+function publishFilterEvent() {
+	mediator.publish('application:menu:ClusterPanelChanged', Menu.state());
 }
 
 function reloadDatasetList(datasets) {
@@ -105,7 +110,7 @@ function setupSideMenu() {
 				$('#' + attr + '-delta-f1-cutoff-slider').empty().slider({
 					min: 0.0001,
 					max: 0.02,
-					value: 0.02,
+					value: 0.0001,
 					range: 'min',
 					orientation: 'horizontal',
 					step: 0.0001,
@@ -123,8 +128,8 @@ function setupSideMenu() {
 
 				$('#' + attr + '-min-cluster-size-slider').empty().slider({
 					min: 1,
-					max: 100,
-					value: 2,
+					max: 40,
+					value: 20,
 					range: 'min',
 					orientation: 'horizontal',
 					step: 1,
@@ -139,7 +144,9 @@ function setupSideMenu() {
 					}, debounceInterval)
 				});
 				$('#' + attr + '-min-cluster-size').val( $('#' + attr + '-min-cluster-size-slider').slider("value") );
-				
+				$('#cluster_btn').on('click', function() {
+					mediator.publish('application:menu:ClusterPanelChanged', Menu.state());
+				});
 			});
 			createUploader();
 }

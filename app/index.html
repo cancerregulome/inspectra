@@ -28,6 +28,7 @@
 
 </head>
 <body>
+    <div class="container">
                 <!--    <nav>
                 <div class="navbar navbar-inverse navbar-fixed-top">
                     <div class="navbar-inner">
@@ -60,61 +61,64 @@
             </div>
             -->
             <div class="row">
-                <div id="sideMenu" class="col-md-2 col-lg-2" data-offset-top="100">
+                <div id="sideMenu" class="col-md-4" data-offset-top="100">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <button id="sideMenuToggle" type="button" class="btn btn-primary btn-block btn-lg">
+                           <!--  <button id="sideMenuToggle" type="button" class="btn btn-primary btn-block btn-lg">
                                 <span id="sideMenuButton" class="glyphicon glyphicon-chevron-right"></span>
                             </button>
-                        </div>
+ -->                        </div>
                         <div class="panel-body">
                             <div class="container">
                                 <div class="row">
                                     <form class="form-horizontal" role="form">
                                         <select id="dataset" class="input-medium"></select>
                                         <span id="uploader"></span>
+                                        <br/>
+                                        <button type="button" class="btn btn-info" id="cluster_btn">Cluster</button>
+
                                             <h4>X Axis</h4>
                                             <form class="form-horizontal" role="form">
                                             <div class="form-group">
-                                            <label for="x-delta-f1-cutoff-slider" class="control-label col-lg-2">
+                                            <label for="x-delta-f1-cutoff-slider" class="control-label col-md-2">
                                                 Delta:
                                             </label>
-                                                <div class="col-lg-offset-1 col-lg-5" id="x-delta-f1-cutoff-slider"></div>
-                                                <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="x-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                                <div class="col-md-offset-1 col-md-5" id="x-delta-f1-cutoff-slider"></div>
+                                                <input type="text" class="input-sm col-md-offset-1 col-md-3" id="x-delta-f1-cutoff" />
                                             </div>
                                         </form>
                                         <form class="form-horizontal" role="form">
                                             <div class="form-group">
-                                            <label for="x-min-cluster-size" class="control-label col-lg-2">Size:</label>
-                                                <div id="x-min-cluster-size-slider" class="col-lg-offset-1 col-lg-5"></div>
-                                                <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="x-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                            <label for="x-min-cluster-size" class="control-label col-md-2">Size:</label>
+                                                <div id="x-min-cluster-size-slider" class="col-md-offset-1 col-md-5"></div>
+                                                <input type="text" class="input-sm col-md-offset-1 col-md-3" id="x-min-cluster-size" />
                                             </div>
                                             </form>
                                         <h4>Y Axis</h4>
                                         <form class="form-horizontal" role="form">
                                             <div class="form-group">
-                                        <label for="y-delta-f1-cutoff" class="control-label col-lg-2">
+                                        <label for="y-delta-f1-cutoff" class="control-label col-md-2">
                                             Delta:
                                             </label>
-                                            <div id="y-delta-f1-cutoff-slider" class="col-lg-offset-1 col-lg-5"></div>
-                                            <input type="text" class="input-sm col-lg-offset-1 col-lg-3"  id="y-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                            <div id="y-delta-f1-cutoff-slider" class="col-md-offset-1 col-md-5"></div>
+                                            <input type="text" class="input-sm col-md-offset-1 col-md-3"  id="y-delta-f1-cutoff" />
                                         
                                     </div>
                                     </form>
                                     <form class="form-horizontal" role="form">
                                         <div class="form-group">
-                                        <label for="y-min-cluster-size"  class="control-label col-lg-2">
+                                        <label for="y-min-cluster-size"  class="control-label col-md-2">
                                             Size:</label>
-                                            <div id="y-min-cluster-size-slider" class="col-lg-offset-1 col-lg-5"></div>
-                                            <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="y-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                            <div id="y-min-cluster-size-slider" class="col-md-offset-1 col-md-5"></div>
+                                            <input type="text" class="input-sm col-md-offset-1 col-md-3" id="y-min-cluster-size" />
                                         </div>
                                         </form>
                                         <h4>Nodes</h4>
                                         <form class="form-horizontal" role="form">
                                             <div class="form-group">
-                                        <label for="node-size" class="control-label col-lg-2">Size:</label>
-                                            <div id="node-size-slider" class="col-lg-offset-1 col-lg-5"></div>
-                                            <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="node-size" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                        <label for="node-size" class="control-label col-md-2">Size:</label>
+                                            <div id="node-size-slider" class="col-md-offset-1 col-md-5"></div>
+                                            <input type="text" class="input-sm col-md-offset-1 col-md-3" id="node-size" />
                                         </div>
                                     </form>
                                         
@@ -125,9 +129,9 @@
                                         </label>
                                         <form class="form-horizontal" role="form">
                                             <div class="form-group">
-                                        <label for="opacity" class="control-label col-lg-2">Opacity:</label>
-                                            <div id="opacity-slider" class="col-lg-offset-1 col-lg-5"></div>
-                                            <input type="text" class="input-sm col-lg-offset-1 col-lg-3" id="opacity" style="border: 0; color: #f6931f; font-weight: bold;" />
+                                        <label for="opacity" class="control-label col-md-2">Opacity:</label>
+                                            <div id="opacity-slider" class="col-md-offset-1 col-md-5"></div>
+                                            <input type="text" class="input-sm col-md-offset-1 col-md-3" id="opacity" />
                                         </div>
                                     </form>
                                         <label for="compositing">
@@ -140,6 +144,7 @@
                                                 <option>xor</option>
                                             </select>
                                         </label>
+                                        <br>
                                         <label for="graph_1_color">
                                             Graph 1:
                                             <select id="graph_1_color" class="input-small">
@@ -150,6 +155,7 @@
                                                 <option value="rgb(255,0,255)">purple</option>
                                             </select>
                                         </label>
+                                        <br>
                                         <label for="graph_2_color">
                                             Graph 2:
                                             <select id="graph_2_color" class="input-small">
@@ -170,12 +176,12 @@
                         </div>
                     </div>
                 </div>
-                <div id="mainPanel" class="col-md-10 col-lg-10">
-                    <div id="main_graph" class="inspectra" style="height:750px"></div>
+                <div id="mainPanel" class="col-md-7">
+                    <div id="main_graph" class="inspectra" style="height:750px;width:750px;"></div>
                 </div>
            
 </div>
-
+</div>
                 <!--[if lt IE 10]>
                 <p class="browsehappy">
                     You are using an <strong>outdated</strong>
