@@ -130,9 +130,10 @@ return function build(selector) {
 			y : function(p) { return self.vis.graphProperties("scaleY")(p) * screenPos.ratio + screenPos.stageY; }
 		};
 
-		var frame = [invert.x(0), invert.y(0), invert.x(this.$sigmaEl.width()) , invert.y(this.$sigmaEl.height())];
+		var canvasFrame = self.vis.graphProperties("frame");
+		var dataFrame = [invert.x(0), invert.y(0), invert.x(this.$sigmaEl.width()) , invert.y(this.$sigmaEl.height())];
 
-		self.clusterData = this.graph.getClustersInFrame(frame);
+		self.clusterData = this.graph.getClustersInFrame(dataFrame);
 
 		self.clusterGroup = rectOverlay.selectAll('rect')
 		.data(self.clusterData, function(c) {
@@ -147,22 +148,22 @@ return function build(selector) {
 			.style('fill', 'none')
 			.style('stroke', function(c) { return c.color; })
 			.style('stroke-width','4')
-			.style('stroke-opacity','0.4')
+			.style('stroke-opacity','0.7')
 			.on('mouseover', function() {
 				d3.select(this)
 					.style('stroke-opacity','0.9');
 			})
 			.on('mouseout', function() {
 				d3.select(this)
-				.style('stroke-opacity','0.4');
+				.style('stroke-opacity','0.7');
 			});
 
 		self.clusterGroup.filter('.x')
 			.style('stroke', function(c) { return c.color; })
 			.attr('width', function(c) { return scale.x(c.box.x1) - scale.x(c.box.x0); } )
-			.attr('height', height+20)
+			.attr('height', height + 20)
 			.attr('x', function(c) { return scale.x(c.box.x0); })
-			.attr('y', '-10');
+			.attr('y',  '-10');
 
 		self.clusterGroup.filter('.y')
 			.style('stroke', function(c) { return c.color; })

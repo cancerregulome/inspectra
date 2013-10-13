@@ -19,7 +19,7 @@ define([
 		drawingProperties:{
 			edgeCompositeOperation: 'lighten',
 			edgeAlpha: 0.05,
-			drawEdges: true,
+			drawEdges: 1,
 		},
 		graphProperties : {
 			nodeSize : 0.5,

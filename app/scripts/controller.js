@@ -45,6 +45,9 @@ application:data:DatasetLoaded
 	}
 
 	function initializeVisControllers() {
+		// mediator.subscribe('application:vis:GraphDrawComplete', function(obj) {
+		// 	mediator.publish('application:controller:PushFilterEvent');
+		// });
 		mediator.subscribe('application:data:DatasetLoaded', function(graphObj){
 			mediator.publish('application:controller:DrawNetwork', graphObj);
 		});
