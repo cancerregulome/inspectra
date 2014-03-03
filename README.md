@@ -3,10 +3,11 @@ Inspectra
 
 ![Screen shot](inspectrascreenshot.png "A screen shot of the HTML5 visualization of comunities in two overlapping cancer graphs")
 
-Inspectra is a tool for spectral comparison of graph topology using python for analysis and HTML5 for interactive visualization.
+Inspectra is a tool for spectral comparison of graph topology using python for analysis and HTML5 for interactive visualization. It calculates fiedler vectors and orders for each graph and uses them in a 2-network layout like the one above. Eigengap clustering is done client side. A live demo is running at http://vis.systemsbiology.net/inspectra/ .
 
-It calculates fiedler vectors and orders for each graph and uses them in a 2-network layout like the one above. Eigengap clustering
-is done client side. 
+![Eigen Gap](Anotated-Eigen-Values.png "A screen shot of the HTML5 visualization and ui")
+
+![Screen shot2](inspectrascreenshot2.png "A screen shot of the HTML5 visualization and ui")
 
 Python Dependencies
 ----------------
