@@ -68,4 +68,17 @@ fo.close()
 
 ```
 
+Building the Web App
+-----------------
 
+See the build instructions [here](INSTALL.md)
+
+Starting the Graph upload/download service
+-----------------
+
+The [graph service](https://github.com/cancerregulome/inspectra/blob/master/golang/graph_server.go) is run using golang.  It supports user uploads and requests from the application.
+
+```bash
+cd /<project>/golang
+go run graph_server.go
+```
