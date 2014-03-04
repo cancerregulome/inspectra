@@ -88,4 +88,57 @@ if __name__ == '__main__':
 
 ```
 
+Building the Web App
+-----------------
 
+See the build instructions [here](INSTALL.md)
+
+Serving the Web App
+-----------------
+
+1. To serve the application from the development environment
+
+```bash
+cd /<project>
+grunt serve &
+
+```
+
+A browser tab will open at http://0.0.0.0:9400
+
+2. Build the project and serve it from nginx/apache/python/whatever.  Remember to proxy the urls /upload and /view to port *9401*
+
+```bash
+cd /project
+grunt build
+nginx ...
+
+```
+
+Starting the Graph upload/download service
+-----------------
+
+The [graph service](https://github.com/cancerregulome/inspectra/blob/master/golang/graph_server.go) is run using golang.  It supports user uploads and requests from the application.
+
+The service runs on port 9401.
+
+```bash
+cd /<project>/golang
+go run graph_server.go
+
+```
+
+Live Demo
+-----------------
+
+The demo is currently running at http://vis.systemsbiology.net/inspectra/
+
+Future
+-----------------
+
+We will be adding:
+* Tools for building graphs from tabular data more easily.
+* Improved UI for rapidly clustering data
+* Overlays for showing enrichment in clusters.  (e.g. function, pathways, known interaction)
+
+Let us know what features you'd like to see!
