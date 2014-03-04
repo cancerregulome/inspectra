@@ -23,6 +23,7 @@ return function(graph) {
 
 		clusterTree: rbush(50, ['.box.x0','.box.y0','.box.x1','.box.y1']),
 		clusters: {}
+		// gapFn : 
 	};
 
 	var clusterColors = [

@@ -19,158 +19,184 @@
                 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
                 <meta name="viewport" content="width=device-width">
 
-                <!-- build:css css/vendor.css -->
+                <!-- build:css css/main.css -->
                 <link rel="stylesheet" href="styles/fineuploader.css">
                 <link rel="stylesheet" href="styles/bootstrap.css">
                 <link rel="stylesheet" href="styles/jquery-ui-1.10.0.custom.css">
-                <!-- endbuild -->
-
-                <!-- build:css css/main.css -->
                 <link rel="stylesheet" href="styles/inspectra.css">
                 <!-- endbuild -->
 
-                <!-- build:js scripts/vendor.js -->                
-                <script src="bower_components/d3/d3.js"></script>
-                <script src="bower_components/sigma/sigma.js"></script>
-                <script src="bower_components/modernizr/modernizr.js"></script>
-                <!-- endbuild -->
 </head>
 <body>
-                <nav>
-                    <div class="navbar navbar-inverse navbar-fixed-top">
-                        <div class="navbar-inner">
-                            <div class="container">
-                                <a class="brand">Inspectra</a>
-                                <form class="navbar-search pull-left">
-                                    <input type="text" placeholder="Label" class="search-query" id="highlight" />
-                                </form>
-                                <a id="helpButton" class="btn btn-small btn-info pull-right" data-toggle="modal" data-target="#helpPanel" href="#"> <i class="icon-question-sign icon-white"></i>
-                                </a>
-                            </div>
+    <div class="container">
+                <!--    <nav>
+                <div class="navbar navbar-inverse navbar-fixed-top">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <a class="brand">Inspectra</a>
+                            <form class="navbar-search pull-left">
+                                <input type="text" placeholder="Label" class="search-query" id="highlight" />
+                            </form>
+                            <a id="helpButton" class="btn btn-small btn-info pull-right" data-toggle="modal" data-target="#helpPanel" href="#"> <i class="icon-question-sign icon-white"></i>
+                            </a>
                         </div>
                     </div>
-                </nav>
-                <div id="helpPanel" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="helpPanelLabel" aria-hidden="true">
-                    <div class="modal-header">
-                        <a type="button" class="close" data-dismiss="modal" aria-hidden="true" href="#"> <i class="icon-remove"></i>
-                        </a>
-                        <h3 id="helpPanelLabel">How to use the graph</h3>
-                    </div>
-                    <div class="modal-body">
-                        Drag : Brush
-                        <br>
-                        Shift + Drag : Pan the plot
-                        <br>
-                        Mousewheel : Zoom
-                        <br>
-                        Click (plot) : Remove brush
-                        <br></div>
                 </div>
-                <div id="main_container" class="container">
-                    <div class="row">
-                        <div class="span3" class="fiedler-filter">
-                            <form class="form-inline">
-                                <select id="dataset" class="input-medium">
-                                  </select>
-                                <span id="uploader"></span>
-                            </form>
-                            <div class="controls controls-group">
-                                <h4>X Axis</h4>
-                                <label for="x-delta-f1-cutoff">
-                                    Delta:
-                                    <div id="x-delta-f1-cutoff-slider" style="width:70px; display:inline-block; margin-left:7px; margin-left:7px; margin-right:10px;"></div>
-                                    <input type="text" class="input-mini" id="x-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                </label>
-                                <label for="x-min-cluster-size">
-                                    Size:
-                                    <div id="x-min-cluster-size-slider" style="width:70px; display:inline-block; margin-left:7px; margin-right:10px;"></div>
-                                    <input type="text" class="input-mini" id="x-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                </label>
-                                <h4>Y Axis</h4>
-                                <label for="y-delta-f1-cutoff">
-                                    Delta:
-                                    <div id="y-delta-f1-cutoff-slider" style="width:70px; display:inline-block; margin-left:7px; margin-left:7px; margin-right:10px;"></div>
-                                    <input type="text" class="input-mini" id="y-delta-f1-cutoff" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                </label>
+            </nav>
+            <div id="helpPanel" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="helpPanelLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <a type="button" class="close" data-dismiss="modal" aria-hidden="true" href="#"> <i class="icon-remove"></i>
+                    </a>
+                    <h3 id="helpPanelLabel">How to use the graph</h3>
+                </div>
+                <div class="modal-body">
+                    Drag : Brush
+                    <br>
+                    Shift + Drag : Pan the plot
+                    <br>
+                    Mousewheel : Zoom
+                    <br>
+                    Click (plot) : Remove brush
+                    <br></div>
+            </div>
+            -->
+            <div class="row">
+                <div id="sideMenu" class="col-md-4" data-offset-top="100">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                           <!--  <button id="sideMenuToggle" type="button" class="btn btn-primary btn-block btn-lg">
+                                <span id="sideMenuButton" class="glyphicon glyphicon-chevron-right"></span>
+                            </button>
+ -->                        </div>
+                        <div class="panel-body">
+                            <div class="container">
+                                <div class="row">
+                                    <form class="form-horizontal" role="form">
+                                        <select id="dataset" class="input-medium"></select>
+                                        <span id="uploader"></span>
+                                        <br/>
+                                        <button type="button" class="btn btn-info" id="cluster_btn">Cluster</button>
 
-                                <label for="y-min-cluster-size">
-                                    Size:
-                                    <div id="y-min-cluster-size-slider" style="width:70px; display:inline-block; margin-left:7px; margin-right:10px;"></div>
-                                    <input type="text" class="input-mini" id="y-min-cluster-size" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                </label>
-                                <h4>Nodes</h4>
-                                <label for="node-size">
-                                    Size:
-                                    <div id="node-size-slider" style="width:70px;display:inline-block; margin-left:7px; margin-right:10px;"></div>
-                                    <input type="text" class="input-mini" id="node-size" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                </label>
-                                <h4>Edges</h4>
+                                            <h4>X Axis</h4>
+                                            <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                            <label for="x-delta-f1-cutoff-slider" class="control-label col-md-2">
+                                                Delta:
+                                            </label>
+                                                <div class="col-md-offset-1 col-md-5" id="x-delta-f1-cutoff-slider"></div>
+                                                <input type="text" class="input-sm col-md-offset-1 col-md-3" id="x-delta-f1-cutoff" />
+                                            </div>
+                                            <div class="form-group">
+                                            <label for="x-min-cluster-size" class="control-label col-md-2">Size:</label>
+                                                <div id="x-min-cluster-size-slider" class="col-md-offset-1 col-md-5"></div>
+                                                <input type="text" class="input-sm col-md-offset-1 col-md-3" id="x-min-cluster-size" />
+                                            </div>
+                                        <h4>Y Axis</h4>
+                                        
+                                            <div class="form-group">
+                                        <label for="y-delta-f1-cutoff" class="control-label col-md-2">
+                                            Delta:
+                                            </label>
+                                            <div id="y-delta-f1-cutoff-slider" class="col-md-offset-1 col-md-5"></div>
+                                            <input type="text" class="input-sm col-md-offset-1 col-md-3"  id="y-delta-f1-cutoff" />
+                                        
+                                    </div>
+                                        <div class="form-group">
+                                        <label for="y-min-cluster-size"  class="control-label col-md-2">
+                                            Size:</label>
+                                            <div id="y-min-cluster-size-slider" class="col-md-offset-1 col-md-5"></div>
+                                            <input type="text" class="input-sm col-md-offset-1 col-md-3" id="y-min-cluster-size" />
+                                        </div>
+                                        <h4>Nodes</h4>
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                        <label for="node-size" class="control-label col-md-2">Size:</label>
+                                            <div id="node-size-slider" class="col-md-offset-1 col-md-5"></div>
+                                            <input type="text" class="input-sm col-md-offset-1 col-md-3" id="node-size" />
+                                        </div>
+                                    </form>
+                                        
+                                    
+   <h4>Edges</h4>
                                 <label class="checkbox">
                                     <input id="edge-checkbox" type="checkbox" checked />
                                     Display
                                 </label>
-                                <label for="opacity">
-                                    Opacity:
-                                    <div id="opacity-slider" style="width:70px;display:inline-block; margin-left:7px; margin-right:10px;"></div>
-                                    <input type="text" class="input-mini" id="opacity" style="border: 0; color: #f6931f; font-weight: bold;" />
-                                </label>
-                                <label for="compositing">
-                                    Composite:
-                                    <select id="compositing" class="input-small">
-                                        <option>lighter</option>
-                                        <option>darker</option>
-                                        <option value="source-over">graph 1</option>
-                                        <option value="destination-over">graph 2</option>
-                                        <option>xor</option>
-                                    </select>
-                                </label>
-                                <label for="graph_1_color">
-                                    Graph 1:
-                                    <select id="graph_1_color" class="input-small">
-                                        <option value="rgb(255,0,0)">red</option>
-                                        <option value="rgb(0,255,0)" selected>green</option>
-                                        <option value="rgb(0,0,255)">blue</option>
-                                        <option value="rgb(255,255,0)">yellow</option>
-                                        <option value="rgb(255,0,255)">purple</option>
-                                    </select>
-                                </label>
-                                <label for="graph_2_color">
-                                    Graph 2:
-                                    <select id="graph_2_color" class="input-small">
-                                        <option value="rgb(255,0,0)" selected>red</option>
-                                        <option value="rgb(0,255,0)">green</option>
-                                        <option value="rgb(0,0,255)">blue</option>
-                                        <option value="rgb(255,255,0)">yellow</option>
-                                        <option value="rgb(255,0,255)">purple</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <label class="checkbox">
-                                <input id="background-color-checkbox" type="checkbox" checked />
-                                Dark Background
-                            </label>
-                        </div>
-                        <div class="span9">
-                            <div id="main_graph" class="inspectra" style="height:750px"></div>
-                            <div class="well graph_controls controls">
-                                <div style="display:inline-block; height:60px"></div>
+                                <div class="form-group">
+                                        <label for="opacity" class="control-label col-md-2">Opacity:</label>
+                                            <div id="opacity-slider" class="col-md-offset-1 col-md-5"></div>
+                                            <input type="text" class="input-sm col-md-offset-1 col-md-3" id="opacity" />
+                                        </div>
+                                    
+                                        <label for="compositing">
+                                            Composite:
+                                            <select id="compositing" class="input-small">
+                                                <option>lighter</option>
+                                                <option>darker</option>
+                                                <option value="source-over">graph 1</option>
+                                                <option value="destination-over">graph 2</option>
+                                                <option>xor</option>
+                                            </select>
+                                        </label>
+                                        <br>
+                                        <label for="graph_1_color">
+                                            Graph 1:
+                                            <select id="graph_1_color" class="input-small">
+                                                <option value="rgb(255,0,0)">red</option>
+                                                <option value="rgb(0,255,0)">green</option>
+                                                <option value="rgb(0,0,255)">blue</option>
+                                                <option value="rgb(255,255,0)" selected>yellow</option>
+                                                <option value="rgb(255,0,255)">purple</option>
+                                            </select>
+                                        </label>
+                                        <br>
+                                        <label for="graph_2_color">
+                                            Graph 2:
+                                            <select id="graph_2_color" class="input-small">
+                                                <option value="rgb(255,0,0)" selected>red</option>
+                                                <option value="rgb(0,255,0)">green</option>
+                                                <option value="rgb(0,0,255)">blue</option>
+                                                <option value="rgb(255,255,0)">yellow</option>
+                                                <option value="rgb(255,0,255)" selected>purple</option>
+                                            </select>
+                                        </label>
+                                        </form>
+                                        <!-- <label class="checkbox">
+                                            <input id="background-color-checkbox" type="checkbox" checked />
+                                            Dark Background
+                                        </label> -->
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--[if lt IE 7]>
-                <p class="chromeframe">
+                <div id="mainPanel" class="col-md-7">
+                    <div id="main_graph" class="inspectra" style="height:750px;width:750px;"></div>
+                </div>
+           
+</div>
+</div>
+                <!--[if lt IE 10]>
+                <p class="browsehappy">
                     You are using an <strong>outdated</strong>
                     browser. Please
                     <a href="http://browsehappy.com/">upgrade your browser</a>
-                    or
-                    <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a>
                     to improve your experience.
                 </p>
                 <![endif]-->
 
-                <!-- build:js scripts/inspectra.js -->
-                <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
+                <!-- build:js scripts/vendor.js -->
+                <!-- bower:js -->
+                <script src="bower_components/d3/d3.js"></script>
+                <script src="bower_components/sigma/sigma.js"></script>
+                <script src="bower_components/modernizr/modernizr.js"></script>
+                <script src="bower_components/jquery/jquery.js"></script>
+                <!-- endbower -->
                 <!-- endbuild -->
+
+<!-- build:js scripts/inspectra.js -->
+<script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
+<!-- endbuild -->
 </body>
-            </html>
+</html>

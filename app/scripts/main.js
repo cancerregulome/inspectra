@@ -5,6 +5,7 @@ require.config({
         bootstrap: 'vendor/bootstrap',
         underscore: '../bower_components/underscore/underscore',
         rbush: '../bower_components/rbush/rbush',
+         "mediator-js": '../bower_components/mediator-js/lib/mediator',
         jDataView: '../bower_components/jDataView/src/jDataView',
         jBinary : '../bower_components/jBinary/src/jBinary',
         crossfilter: '../bower_components/crossfilter/crossfilter',
@@ -36,8 +37,7 @@ require.config({
 
 require(['app', 'underscore', 'jquery', 'jqueryui', 'bootstrap', 'rbush', 'fineuploader'], function (app, _, $) {
     'use strict';
-    app.initialize(function(){
-        app.start();
-    });
+    $.when(app.initialize())
+    .done(app.start());
     
 });
