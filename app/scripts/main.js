@@ -1,6 +1,6 @@
 require.config({
     paths: {
-        jquery: '../bower_components/jquery/jquery',
+        jquery: '../bower_components/jquery/dist/jquery',
         jqueryui: "../bower_components/jqueryuibootstrap/js/jquery-ui-1.9.2.custom.min",
         bootstrap: 'vendor/bootstrap',
         underscore: '../bower_components/underscore/underscore',
@@ -12,9 +12,6 @@ require.config({
         fineuploader: 'vendor/fineuploader'
     },
     shim: {
-        underscore: {
-            exports : '_'
-        },
         crossfilter: {
             exports : 'crossfilter'
         },

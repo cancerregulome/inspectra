@@ -1,6 +1,6 @@
 {
   "name": "inspectra",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies": {
     "requirejs": "latest",
     "modernizr": "latest",
@@ -11,8 +11,8 @@
     "sigma": "git://github.com/rbkreisberg/sigma.js.git",
     "underscore": "latest",
     "d3": "*",
-    "crossfilter": "~1.2.0",
-    "rbush": "git@github.com:mourner/rbush.git#~1.2.1",
+    "crossfilter": ">=1.2.0",
+    "rbush": "git@github.com:mourner/rbush.git#v1.3",
     "jqueryuibootstrap": "*",
     "mediator-js": "~0.9.5"
   },
