@@ -45,7 +45,7 @@ function enrichGeneList( geneList ) {
 
   $.ajax({
     type: 'POST',
-    url : '/ponzi',
+    url : 'ponzi',
     dataType: 'json',
     contentType: 'application/json; charset=utf-8',
     data : JSON.stringify( { lists : {list1: geneList} } )
