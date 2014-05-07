@@ -42,7 +42,13 @@ module.exports = function (grunt) {
                     '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
                     '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
-            }
+            },
+            handlebars: {
+                files: [
+                    '<%= yeoman.app %>/scripts/templates/{,*/}*.hbs'
+                ],
+                tasks: ['handlebars']
+            },
         },
         connect: {
             options: {
@@ -57,13 +63,23 @@ module.exports = function (grunt) {
                     https: false,
                     changeOrigin: false
                 },
-		{
-		   context: '/view',
-		   host: '0.0.0.0',
-		   port: 9401,
-		   https: false,
-		   changeOrigin: false
-		}
+        		{
+        		   context: '/view',
+        		   host: '0.0.0.0',
+        		   port: 9401,
+        		   https: false,
+        		   changeOrigin: false
+                },
+                {
+                    context: '/ponzi',
+                    host: '0.0.0.0',
+                    port: 9402,
+                    https: false,
+                    changeOrigin: false,
+                    rewrite: {
+                        '^/ponzi' : ''
+                    }
+                }
             ],
             livereload: {
                 options: {
@@ -160,6 +176,9 @@ module.exports = function (grunt) {
                     // `name` and `out` is set by grunt-usemin
                     baseUrl: yeomanConfig.app + '/scripts',
                     optimize: 'none',
+                    paths: {
+                        'templates': '../../.tmp/scripts/templates'
+                    },
                     // TODO: Figure out how to make sourcemaps work with grunt-usemin
                     // https://github.com/yeoman/grunt-usemin/issues/30
                     //generateSourceMaps: true,
@@ -181,6 +200,17 @@ module.exports = function (grunt) {
                         // '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
                         '<%= yeoman.dist %>/styles/fonts/*'
                     ]
+                }
+            }
+        },
+        handlebars: {
+            compile: {
+                options: {
+                    namespace: 'JST',
+                    amd: true
+                },
+                files: {
+                    '.tmp/scripts/templates.js': ['<%= yeoman.app %>/scripts/templates/{,*/}*.hbs']
                 }
             }
         },
@@ -299,14 +329,17 @@ module.exports = function (grunt) {
         },
         concurrent: {
             server: [
-                'copy:styles'
+                'copy:styles',
+		'handlebars'        
             ],
             test: [
-                'copy:styles'
+                'copy:styles',
+		'handlebars'
             ],
             dist: [
                 'copy:styles',
-                'imagemin',
+		'handlebars',         
+	        'imagemin',
                 'svgmin',
                 'htmlmin'
             ]
@@ -320,6 +353,11 @@ module.exports = function (grunt) {
             }
         }
     });
+
+    grunt.registerTask('createDefaultTemplate', function() {
+        grunt.file.write('.tmp/scripts/templates.js', 'this.JST = this.JST || {};');
+    });
+
 
     grunt.registerTask('server', function (target) {
         if (target === 'dist') {
@@ -340,13 +378,15 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:server',
         'concurrent:test',
-                'autoprefixer',
+        'createDefaultTemplate',
+        'autoprefixer',
         'connect:test',
         'mocha'
     ]);
 
     grunt.registerTask('build', [
         'clean:dist',
+        'createDefaultTemplate',
         'useminPrepare',
         'concurrent:dist',
         'autoprefixer',
