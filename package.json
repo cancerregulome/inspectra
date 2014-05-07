@@ -14,7 +14,6 @@
     "grunt-contrib-htmlmin": "~0.1.3",
     "grunt-bower-requirejs": "~0.7.0",
     "grunt-contrib-requirejs": "~0.4.1",
-    "grunt-contrib-imagemin": "~0.2.0",
     "grunt-contrib-watch": "~0.5.2",
     "grunt-rev": "~0.1.0",
     "grunt-autoprefixer": "~0.2.0",
