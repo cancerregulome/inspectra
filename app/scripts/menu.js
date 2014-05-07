@@ -1,5 +1,5 @@
 define([
-	'mediator-js'
+	'mediator'
 	,'vis/histogram'
 ], function(mediator) {
 'use strict'
@@ -83,7 +83,7 @@ function setupSideMenu() {
 			$('#graph-1-color').on('change', function(evt)  {
 				mediator.publish('application:menu:DisplayPanelChanged', Menu.state());
 			});
-			
+
 			$('#graph-2-color').on('change', function(evt)  {
 				mediator.publish('application:menu:DisplayPanelChanged', Menu.state());
 			});
@@ -107,7 +107,7 @@ function setupSideMenu() {
 			});
 			$( "#node-size" ).val( $( "#node-size-slider" ).slider( "value" ) );
 
-			['x','y'].forEach( function ( attr) { 
+			['x','y'].forEach( function ( attr) {
 				$('#' + attr + '-delta-f1-cutoff-slider').empty().slider({
 					min: 0.0001,
 					max: 0.0006,
@@ -207,7 +207,7 @@ function getSelectedValue(elementId) {
 			return deferred.promise();
 		},
 		state: function ( ) {
-			return { 
+			return {
 				drawRules : {
 					drawEdges: $('#edge-checkbox').is(':checked') ? 1 : 0,
 				},

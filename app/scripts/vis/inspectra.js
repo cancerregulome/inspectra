@@ -7,6 +7,13 @@ return function build(selector) {
 
 	var inspectra = { version: '0.0.2' };
 
+	var wrappedClusterSelectHandler = function() {};
+	var brushListSelectHandler = function() {};
+
+	function wrappingBrushListSelectHandler() {
+		brushListSelectHandler.apply(this, arguments);
+	};
+
 	var $el = $(selector).empty().css({
 		position: 'relative',
 		"border-radius": '4px',
@@ -51,16 +58,8 @@ return function build(selector) {
 	}).mouseProperties({
 		maxRatio: 128,
 		zoomMultiply: 1.2
-	}).bind('stopbrush', function(e) {
-		var rectangle = e.content;
-		var boundaries = [
-			Math.min(rectangle[0], rectangle[2]),
-			Math.min(rectangle[1], rectangle[3]),
-			Math.max(rectangle[0], rectangle[2]),
-			Math.max(rectangle[1], rectangle[3])
-		];
-		console.log(inspectra.graph.getNodesInBox(boundaries));
-	}).bind('downnodes', function(e, nodes) {
+	}).bind('stopbrush', wrappingBrushListSelectHandler
+	).bind('downnodes', function(e, nodes) {
 		console.log(e.content)
 	}).bind('graphscaled', function(e){
 		inspectra.graph.isClustered() && inspectra.drawClusters();
@@ -73,7 +72,7 @@ return function build(selector) {
 		height: '100%',
 		top: '-20px',
 		left: '-20px',
-		
+
 	}).prependTo($sigmaEl);
 
 	var width = $clusterEl.width(),
@@ -113,6 +112,41 @@ return function build(selector) {
 
 	inspectra.edgeColor = function(graph_id, color) {
 		edgeColors[graph_id] = color;
+		return this;
+	};
+
+  var gatherClusterNodes = function() {
+		var boundaryObj = d3.select(this).data()[0].box;
+		var boundaries = [ boundaryObj.x0, boundaryObj.y0, boundaryObj.x1, boundaryObj.y1 ];
+		var nodes = inspectra.graph.getNodesInBox(boundaries);
+		return nodes;
+	};
+
+	function transformBrushSelection(e) {
+		var rectangle = e.content;
+		var boundaries = [
+			Math.min(rectangle[0], rectangle[2]),
+			Math.min(rectangle[1], rectangle[3]),
+			Math.max(rectangle[0], rectangle[2]),
+			Math.max(rectangle[1], rectangle[3])
+		];
+		return inspectra.graph.getNodesInBox(boundaries);
+	};
+
+	inspectra.onClusterSelect = function(f, args, scope) {
+		scope = scope || inspectra;
+		args = args || [];
+		// called in the context of the d3 object
+		wrappedClusterSelectHandler = function() {
+			var nodes = gatherClusterNodes.apply(this, arguments);
+			f.apply(scope, [nodes].concat(args) );
+		};
+
+		brushListSelectHandler = function(e) {
+			var nodes = transformBrushSelection(e);
+			console.log('select');
+			f.apply(scope, [nodes].concat(args) );
+		};
 		return this;
 	};
 
@@ -157,7 +191,9 @@ return function build(selector) {
 			.on('mouseout', function() {
 				d3.select(this)
 				.style('stroke-opacity','0.7');
-			});
+			})
+			.on('click', wrappedClusterSelectHandler
+			);
 
 		self.clusterGroup.filter('.x')
 			.style('stroke', function(c) { return c.color; })

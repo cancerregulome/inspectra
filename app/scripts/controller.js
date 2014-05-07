@@ -1,5 +1,5 @@
 define([
-	'mediator-js'
+	'mediator'
 	,'menu'
 ], function(mediator, menu) {
 	'use strict'
@@ -59,10 +59,20 @@ application:data:DatasetLoaded
 		});
 	}
 
+	function initializeModuleControllers() {
+		mediator.subscribe('application:vis:GeneListSelected', function(geneList) {
+			mediator.publish('application:controller:EnrichGeneList', geneList);
+		});
+		mediator.subscribe('application:modules:enrich:EnrichmentResults', function(enrichmentObj) {
+			mediator.publish('application:controller:UpdateEnrichmentTable', enrichmentObj);
+		});
+	}
+
 	function initializeControllers() {
 		initializeDataControllers();
 		initializeMenuControllers();
 		initializeVisControllers();
+		initializeModuleControllers();
 	}
 
 	var Controller = {

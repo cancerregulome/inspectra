@@ -1,5 +1,5 @@
 define([
-	'mediator-js'
+	'mediator'
 ], function(mediator) {
 	'use strict'
 
@@ -8,7 +8,7 @@ function loadData(val) {
 			format: "json"
 		})
 	.done( function(responseObj) {
-		mediator.publish('application:data:DatasetLoaded', responseObj) 
+		mediator.publish('application:data:DatasetLoaded', responseObj)
 	});
 }
 

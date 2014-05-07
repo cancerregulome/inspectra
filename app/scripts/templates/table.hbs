@@ -1,0 +1,31 @@
+<div class="table-responsive">
+  <table class="table" style="overflow:auto">
+    <thead>
+      <tr>
+        <th>
+          Pathway
+        </th>
+        <th>
+          p-value
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each list}}
+      <tr>
+        <td>
+          <a href="
+          {{~link~}}
+          " target="_blank">
+          {{~name~}}
+          </a>
+        </td>
+
+        <td>
+          {{~p~}}
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+  </table>
+</div>

@@ -2,12 +2,14 @@
 define([
 	'jquery'
 	, 'underscore'
-	, 'mediator-js'
+	, 'mediator'
 	, 'controller'
 	, 'menu'
 	, 'data'
 	, 'vis'
-], function($, _, mediator, controller, menu, data, vis) {
+	, 'enrich'
+	, 'table'
+], function($, _, mediator, controller, menu, data, vis, ponzi, table) {
 	'use strict';
 
 	var insp;
@@ -52,8 +54,10 @@ define([
 		initialize: function() {
 			setup();
 			var deferred = $.when(controller.initialize())
+				.then(ponzi.initialize())
 				.then(data.initialize())
 				.then(menu.initialize())
+				.then(table.initialize())
 				.done(vis.initialize());
 
 			return deferred.promise();

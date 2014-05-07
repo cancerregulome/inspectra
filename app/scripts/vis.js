@@ -1,7 +1,7 @@
 define([
 	'vis/inspectra'
 	, 'model/graph'
-	,'mediator-js'
+	,'mediator'
 ], function ( inspectra, graphModel, mediator ) {
 'use strict'
 
@@ -52,7 +52,7 @@ function populateVis() {
 
 function filterClusters(filterObj) {
 	_.extend(__.clusterProperties, filterObj.clusterProperties);
-		
+
 	['x','y'].forEach( function(attr) {
 		var cutoff = __.clusterProperties[attr].delta,
 			graph = attr === 'x' ? 'graph1' : 'graph2',
@@ -82,6 +82,12 @@ function drawInspectra(data) {
 				if (insp === undefined) insp = inspectra(__.graphContainer);
 				insp.vis.configProperties(__.drawRules);
 				insp.vis.drawingProperties(__.drawingProperties);
+				insp.onClusterSelect(function(nodes) {
+					var ids = _.pluck(nodes, 'id');
+					var genes = ids.map( function(id) { return id.split(':')[2]; });
+					mediator.publish('application:vis:GeneListSelected', genes);
+				});
+
 				insp.populate(graph);
 				draw();
 			};
@@ -102,7 +108,7 @@ function applyDrawParameters(paramObj) {
 }
 
 function initializeVis() {
-	
+
 }
 
 	var Vis = {

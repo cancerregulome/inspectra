@@ -1,7 +1,7 @@
 define([
 	  'underscore'
 	, 'rbush'  //rbush installs itself on the global object
-], function (_) {
+], function (_, rbush) {
 'use strict'
 
 var n1 = 0,
@@ -18,12 +18,12 @@ return function(graph) {
 		nodeMap: {},
 		nodeOrder: {},
 		edges: [],
-		nodeTree: null,   //think about transmitting tree from server side... rbush on node.js server 
+		nodeTree: null,   //think about transmitting tree from server side... rbush on node.js server
 		edgeTree: null,
 
 		clusterTree: rbush(50, ['.box.x0','.box.y0','.box.x1','.box.y1']),
 		clusters: {}
-		// gapFn : 
+		// gapFn :
 	};
 
 	var clusterColors = [
@@ -63,7 +63,7 @@ return function(graph) {
 
 			if (__.nodeOrder[order_attr] === undefined) __.nodeOrder[order_attr] = _.sortBy(__.nodes, order_attr);
 
-			var node1, 
+			var node1,
 				node2 = __.nodeOrder[order_attr][0];
 
 			for (var i = 1; i < total; i++) {
@@ -84,8 +84,8 @@ return function(graph) {
 				cluster_num = -1;
 				cluster_color = filteredOutColor;
 
-				if (c.length >= min_size) { 
-					cluster_num = cluster_index++; 
+				if (c.length >= min_size) {
+					cluster_num = cluster_index++;
 					cluster_color = clusterColors[index%numColors];
 					__.clusters[order_attr].push({nodes: c, color: cluster_color});
 				}
@@ -110,21 +110,21 @@ return function(graph) {
 				nodeClusters.forEach( function(n) {
 					var xExtent = d3.extent(n.nodes, function(d) { return __.nodeOrder[attribute][d].x;});
 					var yExtent = d3.extent(n.nodes, function(d) { return __.nodeOrder[attribute][d].y;});
-					tClusters.push( { 
-						attr: attribute, 
-						color: n.color, 
-						box: { 
-							x0: xExtent[0], 
-							y0: yExtent[0], 
-							x1: xExtent[1], 
-							y1: yExtent[1] 
-						} 
+					tClusters.push( {
+						attr: attribute,
+						color: n.color,
+						box: {
+							x0: xExtent[0],
+							y0: yExtent[0],
+							x1: xExtent[1],
+							y1: yExtent[1]
+						}
 					});
 				});
 			});
 
 			__.clusterTree.clear();
-			
+
 			__.clusterTree.load(tClusters);
 		},
 
@@ -139,14 +139,14 @@ return function(graph) {
 			frame = tFrame;
 		}
 		var result = _.uniq(__.clusterTree.search(frame), false, function(a) { return a.box;});
-		return result; 
+		return result;
 	}
 
 };
 
 	function loadNodes(nodes) {
 		__.nodeTree.clear();
-		var nodePositions = nodes.map(function(node) {		
+		var nodePositions = nodes.map(function(node) {
 			return { id : node.id, x0: node.x, y0: node.y, x1: node.x+.1, y1: node.y+.1 };
 		});
 
@@ -154,8 +154,8 @@ return function(graph) {
 			x : d3.extent(nodes, function(n) { return n.x; }),
 			y : d3.extent(nodes, function(n) { return n.y; })
 		};
-		
-		__.nodeTree.load(nodePositions);	
+
+		__.nodeTree.load(nodePositions);
 
 	}
 
@@ -173,7 +173,7 @@ return function(graph) {
 	__.nodes.forEach(function(val, index){
 		__.nodeMap[val.id] = index;
 	});
-	
+
 	__.nodeToEdgesMap = _.object(_.pluck(__.nodes,id), _.times(__.nodes.length,makeArray));
 	var id1, id2, edge_id;
 	var edges = __.edges.map(function(edge) {
@@ -195,7 +195,7 @@ return function(graph) {
 	_.extend(graphModel, {nodes: __.nodes, edges: __.edges});
 
 	return graphModel;
-		
+
 };
 
 });
